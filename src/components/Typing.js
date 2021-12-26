@@ -60,20 +60,22 @@ function Writing() {
 
     useEffect( () => {
         setSampleState(prev => {
-            return prev.map((item, i) => {
+            const slicedArr = prev.slice(0, userInputWriting.length).map((item, i) => {
                 const userItem = userInputWriting[i]
-                if (userItem == null) {
-                    return <span>{item.props.children}</span>
-                } else if (userItem === item.props.children) {
-                    return <span className="greenText">{item.props.children}</span>
-                } else if (userItem !== item.props.children) {
-                    return <span className="red">{item.props.children}</span>
-                }
+                return userItem === item.props.children ? <span className="greenText">{item.props.children}</span> :
+                <span className="red">{item.props.children}</span>
             })
+            const prevCopy = prev
+
+            prevCopy.splice(0, slicedArr.length, ...slicedArr)
+            
+            
+            return prevCopy
+            
         })
     } , [userInputWriting])
     
-
+    console.log(sampleState)
     return (
         <main className="typing">
             <div className="typing--sampleArea">

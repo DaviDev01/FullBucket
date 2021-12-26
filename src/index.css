@@ -19,7 +19,7 @@
 }
 
 .typing--userInput { 
-    opacity: 0;
+    opacity: 1;
     pointer-events: none;
 }
 
