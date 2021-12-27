@@ -1,21 +1,48 @@
 import React, {useState, useEffect, useRef} from "react"
 
-function Writing() {
+function Typing() {
     const [sample, setSample] = useState('The quick brown fox jumps over the lazy dog')
     const [userInputWriting, setUserInputWriting] = useState("")
     const [focusSampleDisplay, setFocusSampleDisplay] = useState(false)
     const [showEditor, setShowEditor] = useState(false)
     const inputFocus = useRef(null)
     const texareaFocus = useRef(null)
-    const sampleDisplayStyle = showEditor ? {display: 'none'} :  focusSampleDisplay ? {border: "solid black 1px"} :  {border: "solid gray 1px", color: 'gray'} 
+    const [fontSize, setFontSize] = useState(1.2)
+    const TAfontSize = {fontSize: `${fontSize}rem`} 
     const [sampleState, setSampleState] = useState(sample.split('').map((item, i) => {
-        return <span>{item}</span>
+        return <span key={i}>{item}</span>
     }))
-    const TAreaStyles = showEditor ? {display: 'block'} : {display: 'none'} 
+    const [hovered, setHovered] = useState(false)
+    const adjustFontEl =  !hovered ? 
+    <i 
+        className="fas fa-text-height"
+        onClick={() => setHovered(true)}
+    ></i> : 
+    <input 
+        className="rangeFont" 
+        type="range" 
+        min="0.5" 
+        max="10" 
+        value={fontSize} 
+        step={.1} 
+        onChange={handleFontChange}
+        onMouseLeave={() => {
+            setHovered(false)
+            setFocus()
+            setSIFocus()
+        }}
+    />
+    
+
 
     function handleChange(e) {
         const {value} = e.target
         setUserInputWriting(value)
+    }
+
+    function handleFontChange(e) {
+        const {value} = e.target
+        setFontSize(value)
     }
 
     useEffect( () => {
@@ -37,16 +64,15 @@ function Writing() {
 
     function setFocus() {
         inputFocus.current.focus()
+        setHovered(false)
     }
 
     function toggleEditor() {
             
         setShowEditor(prev => !prev)
         if (showEditor) {
-            console.log('focusDisplayer')
             setFocus() 
         } else if (!showEditor) {
-            console.log('focusEditor')
             setTimeout(() => {
                 setSIFocus()
                 texareaFocus.current.selectionStart = texareaFocus.current.value.length
@@ -63,43 +89,48 @@ function Writing() {
             return prev.map((item, i) => {
                 const userItem = userInputWriting[i]
                 if (userItem == null) {
-                    return <span>{item.props.children}</span>
+                    return <span key={i}>{item.props.children}</span>
                 } else if (userItem === item.props.children) {
-                    return <span className="greenText">{item.props.children}</span>
+                    return <span className="greenText" key={i}>{item.props.children}</span>
                 } else if (userItem !== item.props.children) {
-                    return <span className="red">{item.props.children}</span>
+                    return <span className="red" key={i}>{item.props.children}</span>
                 }
             })
         })
     } , [userInputWriting])
     
-
     return (
         <main className="typing">
             <div className="typing--sampleArea">
                 <div 
-                    style={sampleDisplayStyle}
+                    style={TAfontSize}
                     onClick={setFocus}
-                    className="typing--sampleDisplay"
+                    className={
+                        `typing--sampleDisplay ${showEditor ?
+                        'displayNone' :  focusSampleDisplay ? 
+                        'focusedBorder' :  'unFocusedBorder' }`
+                    }
                 >  
                     {sampleState}
                 </div>
                 <textarea 
+                    style={TAfontSize}
                     ref={texareaFocus}
-                    style={TAreaStyles}
                     id="typing--sampleInput"
-                    className="typing--sampleInput"
+                    className={`typing--sampleInput ${showEditor ? 'displayBlock' : 'displayNone'}`}
                     type="text"
                     name="sample"
                     onChange={handleSample}
+                    onClick={() => setHovered(false)}
                     value={sample}
                 />
                 <button
                     className={`typing--btn ${showEditor && 'typing--btn__check'}`}
                     onClick={toggleEditor}    
                 >
-                    <i class={`${showEditor ? 'far fa-check-square' : 'far fa-edit'}`}></i>
+                    <i className={`${showEditor ? 'far fa-check-square' : 'far fa-edit'} editIcon`}></i>
                 </button>
+                {adjustFontEl}    
             </div>
             <textarea 
                 ref={inputFocus}
@@ -115,4 +146,4 @@ function Writing() {
     )
 }
 
-export default Writing
+export default Typing
