@@ -1,4 +1,5 @@
-
+html, body {
+}
 
 * {box-sizing: border-box; margin: 0; /*border: red solid .1px;*/}
 
@@ -16,11 +17,17 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    height: 100vh;
 }
 
 .typing--userInput { 
-    opacity: 1;
+    opacity: 0;
+    position: absolute;
     pointer-events: none;
+    resize: none;
+    height: 0;
+    width: 0;
+    overflow: hidden;
 }
 
 .typing--sampleDisplay {
@@ -68,16 +75,83 @@
 
 .typing--btn {
     position: absolute;
-    top: 73vh;
-    right: 11vw;
-    font-size: 1.5rem;
+    top: 80vh;
+    right: 13vw;
     padding: .1em 0 0em 2em;
     background-color: transparent;
     border: none;
-    color: rgb(29, 27, 27);
 }
 
 .typing--btn__check {
     padding-top: .17em;
     padding-right: .234em;
 }
+
+.displayBlock {
+    display: block;
+}
+
+.displayNone {
+    display: none;
+}
+
+.focusedBorder {
+    border: solid black 1px;
+}
+
+.unFocusedBorder {
+    border: solid gray 1px;
+    color: gray;
+}
+
+input[type='range'] {
+    -webkit-appearance: none;
+    position: absolute;
+    transform: rotate(-90deg);
+    width: 100px;
+    top: 75.6vh;
+    right: 13vw;
+}
+
+.rangeFont::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    
+    height: 7px;
+    border-radius: 2px;
+    cursor: pointer;
+    background: rgb(255, 255, 255);
+    border: rgb(0, 0, 0) solid 1px;
+}
+
+.rangeFont::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 17px;
+    margin-top: -6px ;
+    border-radius: 2px;
+    cursor: pointer;
+    background: rgb(29, 27, 27);
+}
+
+.fa-text-height {
+    position: absolute;
+    top: 80.35vh;
+    right: 16vw;
+    font-size: 1.45rem;
+    
+}
+
+.editIcon,
+.fa-text-height {
+    cursor: pointer;
+    font-size: 1.4rem;
+    color: rgb(29, 27, 27);
+    opacity: .8;
+}
+
+.editIcon:hover,
+.fa-text-height:hover {
+    opacity: 1;
+}
+
+
