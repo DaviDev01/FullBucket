@@ -154,4 +154,7 @@ input[type='range'] {
     opacity: 1;
 }
 
+span {
+    white-space: pre-wrap;
+}
 

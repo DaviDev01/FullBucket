@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from "react"
+import {runTTs} from "../textToSpeech"
 
 function Typing() {
     const [sample, setSample] = useState('The quick brown fox jumps over the lazy dog')
@@ -32,8 +33,6 @@ function Typing() {
             setSIFocus()
         }}
     />
-    
-
 
     function handleChange(e) {
         const {value} = e.target
@@ -51,7 +50,11 @@ function Typing() {
         }))
     }, [sample] )
 
-    useEffect( () => setFocus(), [] )
+    useEffect( () => {
+        setFocus()
+        document.body.addEventListener('keyup', runTTs)
+        return () => document.body.RemoveEventListener('keyup', runTTs)
+    }, [] )
 
     function handleSample(e) {
         setUserInputWriting('')
@@ -98,6 +101,8 @@ function Typing() {
             })
         })
     } , [userInputWriting])
+
+    
     
     return (
         <main className="typing">
