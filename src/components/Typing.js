@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from "react"
-import {runTTs} from "../textToSpeech"
+import TextToSpeech from "./TextToSpeech"
+import Dictionary from "./Dictionary"
 
 function Typing() {
     const [sample, setSample] = useState('The quick brown fox jumps over the lazy dog')
@@ -28,11 +29,20 @@ function Typing() {
         step={.1} 
         onChange={handleFontChange}
         onMouseLeave={() => {
-            setHovered(false)
-            setFocus()
-            setSIFocus()
-        }}
+            setTimeout(() => {
+                setHovered(false)
+            }, 1000); 
+        }} 
     />
+    const settings  = 
+    <div className="settings">
+        <i 
+            className={`${showEditor ? 'fas fa-check' : 'fas fa-pen'} ${showEditor && 'typing--btn__check'} editIcon`} 
+            onClick={toggleEditor} 
+        ></i>
+        <TextToSpeech hovered={hovered}/>
+        {adjustFontEl}    
+    </div>
 
     function handleChange(e) {
         const {value} = e.target
@@ -52,8 +62,6 @@ function Typing() {
 
     useEffect( () => {
         setFocus()
-        document.body.addEventListener('keyup', runTTs)
-        return () => document.body.RemoveEventListener('keyup', runTTs)
     }, [] )
 
     function handleSample(e) {
@@ -101,22 +109,22 @@ function Typing() {
             })
         })
     } , [userInputWriting])
-
-    
     
     return (
         <main className="typing">
-            <div className="typing--sampleArea">
+            <div    
+                className="typing--sampleArea"
+            >
                 <div 
                     style={TAfontSize}
-                    onClick={setFocus}
+                    
                     className={
                         `typing--sampleDisplay ${showEditor ?
                         'displayNone' :  focusSampleDisplay ? 
                         'focusedBorder' :  'unFocusedBorder' }`
                     }
                 >  
-                    {sampleState}
+                    <p onClick={setFocus}>{sampleState}</p>
                 </div>
                 <textarea 
                     style={TAfontSize}
@@ -129,14 +137,9 @@ function Typing() {
                     onClick={() => setHovered(false)}
                     value={sample}
                 />
-                <button
-                    className={`typing--btn ${showEditor && 'typing--btn__check'}`}
-                    onClick={toggleEditor}    
-                >
-                    <i className={`${showEditor ? 'far fa-check-square' : 'far fa-edit'} editIcon`}></i>
-                </button>
-                {adjustFontEl}    
+                {settings}
             </div>
+            
             <textarea 
                 ref={inputFocus}
                 className="typing--userInput"
@@ -147,6 +150,7 @@ function Typing() {
                 onFocus={() => setFocusSampleDisplay(true)}
                 onBlur={() => setFocusSampleDisplay(false)}
             />
+            <Dictionary fontSize={fontSize}/>
         </main>
     )
 }
