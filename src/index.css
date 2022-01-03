@@ -83,14 +83,14 @@ html, body {
     display: none;
 }
 
-.focusedBorder {
+/* .focusedBorder {
     border: solid black 1px;
 }
 
 .unFocusedBorder {
     border: solid gray 1px;
     color: gray;
-}
+} */
 
 input[type='range'] {
     -webkit-appearance: none;
@@ -132,6 +132,7 @@ input[type='range'] {
     font-size: 1.4rem;
     color: rgb(29, 27, 27);
     opacity: .8;
+    background: transparent;
 }
 
 .editIcon:hover,
@@ -150,8 +151,6 @@ span {
 
 .settings {
     position: absolute;
-    top: 78%;
-    right: 12%;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -217,24 +216,21 @@ span {
 }
 
 .list-container {
-    width: 30%;
+    /* width is in the dictionary component 30%) */
     background-color: #fff;
     padding: 1em 0;
     box-shadow: 2px 2px 15px 5px rgba(0, 0, 0, 0.103);
     border: none;
-    border-radius: .7em;
+    border-radius: .7em .7em .7em .7em;
     position: absolute;
     text-align: left;
 }
 
-.list-container:focus { 
-    outline: none; 
-} 
-
 .definition {
     font-family: 'Inter', sans-serif;
-    font-size: .7rem;
-    color: #4A4A4A;
+    font-size: .82rem;
+    font-weight: 500;
+    color: #0f0f0fc9;
     margin-top: 1em;
 }
 
@@ -249,7 +245,18 @@ span {
     padding: .45em .6em; 
     border-radius: .2em;
     font-weight: 700;
+    font-size: .9rem;
     background-color: #e7e7e7cc;
     color: #03C197;
     letter-spacing: 1px;
+}
+
+.NoDefinitions {
+    font-family: 'Inter', sans-serif;
+    margin: auto;
+    text-align: center;
+}
+
+.hidden {
+    visibility: hidden;
 }

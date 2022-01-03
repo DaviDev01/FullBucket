@@ -5,10 +5,8 @@ export default function TextToSpeech(props) {
     const [voices, setVoices] = useState(null)
     const [voicesEl, setVoicesEl] = useState()
     const [option, setOption] = useState("Google US English");
-    var [inputTxt, setInputTxt] = useState('')
+    let [inputTxt, setInputTxt] = useState('')
     const [clicked, setClicked] = useState(false)
-    //const [toRead, setToRead] = useState('');
-    // added another useEffect to fire when toRead is updated:
     let audioControlsStyle = props.hovered && !clicked ? {marginRight: '55.5px'} : props.hovered && clicked ? {marginRight: '34.5px'} : null
 
     function handleChange(e) {
@@ -16,15 +14,11 @@ export default function TextToSpeech(props) {
         setOption(value) 
     }
 
-    //useEffect( () => {
-       // setSelectedVoice(voices.find( obj => obj.name === option ))    
-        
-    //}, [option, voices] )
-
     useEffect( () => {
         populateVoiceList()
-        document.body.addEventListener('keyup', runTTs)
+        document.body.addEventListener('keydown', runTTs)
         getSelectedText()
+        return () => document.body.addEventListener('keydown', runTTs)
     }, [])
     
     function getSelectedText() {
@@ -70,49 +64,42 @@ export default function TextToSpeech(props) {
 
     function speak(){
         if (inputTxt !== '') {
-        var utterThis = new SpeechSynthesisUtterance(inputTxt);
-        
-        utterThis.voice = voices.find( (obj) => obj.name === option)
-        //console.log('selected voice:', voices.find( (obj) => obj.name === option))
-        //utterThis.pitch = pitch.value;
-        //utterThis.rate = rate.value;
-        synth.speak(utterThis);
-      }
+            let utterThis = new SpeechSynthesisUtterance(inputTxt);
+            
+            utterThis.voice = voices.find( (obj) => obj.name === option)
+            synth.speak(utterThis);
+        }
     }
 
     function runTTs(e) {
-        let char = e.keyCode
-        switch(char) {
-            case 16:
-                document.querySelector('#play').click()
-                //getDictionaryData()
-            break;
-            default: 
-            break;
-    }}
+        if (e.key === 'a' && e.altKey) {
+            document.querySelector('#play').click()
+        }
+    }
+
     return (
-            <div 
-                className={`controls  ${!clicked &&'maring-top'}` }
-                style={audioControlsStyle}
+        <div 
+            className={`controls  ${!clicked &&'maring-top'}` }
+            style={audioControlsStyle}
+        >
+            <select
+                onBlur={() => setClicked(false)}
+                value={option}
+                onChange={handleChange}
+                name='option'
+                className={`TTS-select ${!clicked && 'displayNone'}`}
             >
-                <select
-                    onBlur={() => setClicked(false)}
-                    value={option}
-                    onChange={handleChange}
-                    name='option'
-                    className={`TTS-select ${!clicked && 'displayNone'}`}
-                >
-                    {voicesEl}
-                </select> 
-                <i className={`fas fa-cog TTS-settingsIcon`} onClick={() => setClicked(prev => !prev)}></i>
-                <button 
-                    id="play" 
-                    type="submit" 
-                    onClick={() => speak()}
-                    className='TTS-speakerIcon'
-                >
-                    <i className="fas fa-volume-up"></i>
-                </button>
-            </div>
+                {voicesEl}
+            </select> 
+            <i className={`fas fa-cog TTS-settingsIcon`} onClick={() => setClicked(prev => !prev)}></i>
+            <button 
+                id="play" 
+                type="submit" 
+                onClick={() => speak()}
+                className='TTS-speakerIcon'
+            >
+                <i className="fas fa-volume-up"></i>
+            </button>
+        </div>
     )
 } 
