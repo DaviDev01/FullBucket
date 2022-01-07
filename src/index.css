@@ -174,7 +174,8 @@ input[type='range'] {
 .editIcon,
 .fa-text-height,
 .TTS-speakerIcon,
-.TTS-settingsIcon {
+.TTS-settingsIcon,
+.muteIcon {
     cursor: pointer;
     font-size: 1.4rem;
     color: rgb(29, 27, 27);
@@ -182,11 +183,16 @@ input[type='range'] {
     background: transparent;
 }
 
+.muteIcon {
+    margin-right: 3px;
+}
+
 .editIcon:hover,
 .fa-text-height:hover,
 .TTS-speakerIcon:hover,
 .TTS-settingsIcon:hover,
-.TTS-select:hover {
+.TTS-select:hover,
+.muteIcon:hover {
     opacity: 1;
 }
 

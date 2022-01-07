@@ -8,6 +8,7 @@ export default function TextToSpeech(props) {
     let [inputTxt, setInputTxt] = useState('')
     const [clicked, setClicked] = useState(false)
     let audioControlsStyle = props.hovered && !clicked ? {marginRight: '55.5px'} : props.hovered && clicked ? {marginRight: '34.5px'} : null
+    const [speaking, setSpeaking] = useState(false)
 
     function handleChange(e) {
         const {value} = e.target
@@ -40,24 +41,24 @@ export default function TextToSpeech(props) {
     
     useEffect( () => {
         if (voices !== null) {
-                let optionsEls = [];
+            let optionsEls = [];
 
-                voices.forEach( (item, i) => {
-                    optionsEls.push(
-                    <option 
-                        key={item.name}
-                        value={item.name}
-                        className="TTs-option"
-                    >
-                        {`${item.name.replace(item.name.includes('Google') ? 'Google' : 'Microsoft','')}`}
-                    </option>)
-                })
+            voices.forEach( (item, i) => {
+                optionsEls.push(
+                <option 
+                    key={item.name}
+                    value={item.name}
+                    className="TTs-option"
+                >
+                    {`${item.name.replace(item.name.includes('Google') ? 'Google' : 'Microsoft','')}`}
+                </option>)
+            })
 
-                optionsEls.splice(0, 0, <optgroup label="Google:" className='aptgroup'>)
-                optionsEls.splice(19, 0, </optgroup>)
-                optionsEls.splice(20, 0, <optgroup label="Microsoft:" className='aptgroup'>)
-                optionsEls.splice(voices.length, 0, </optgroup>)
-                setVoicesEl(optionsEls)
+            optionsEls.splice(0, 0, <optgroup label="Google:" className='aptgroup'>)
+            optionsEls.splice(19, 0, </optgroup>)
+            optionsEls.splice(20, 0, <optgroup label="Microsoft:" className='aptgroup'>)
+            optionsEls.splice(voices.length, 0, </optgroup>)
+            setVoicesEl(optionsEls)
         }
         
     }, [voices] )
@@ -65,8 +66,23 @@ export default function TextToSpeech(props) {
     function speak(){
         if (inputTxt !== '') {
             let utterThis = new SpeechSynthesisUtterance(inputTxt);
-            
+            setSpeaking(true)
             utterThis.voice = voices.find( (obj) => obj.name === option)
+            
+            let myTimeout;
+            function myTimer() {
+                synth.pause();
+                synth.resume();
+                myTimeout = setTimeout(myTimer, 10000);
+            }
+            
+            synth.cancel();
+            myTimeout = setTimeout(myTimer, 10000);
+
+            utterThis.onend =  function() { 
+                setSpeaking(false) 
+                clearTimeout(myTimeout); 
+            }
             synth.speak(utterThis);
         }
     }
@@ -92,13 +108,16 @@ export default function TextToSpeech(props) {
                 {voicesEl}
             </select> 
             <i className={`fas fa-cog TTS-settingsIcon`} onClick={() => setClicked(prev => !prev)}></i>
+            
+            {/* <i onClick={() => synth.cancel()} className="fas fa-volume-mute muteIcon"></i> */}
+            
             <button 
                 id="play" 
                 type="submit" 
-                onClick={() => speak()}
+                onClick={() => speaking ? synth.cancel() : speak()}
                 className='TTS-speakerIcon'
             >
-                <i className="fas fa-volume-up"></i>
+                <i className={`fas ${speaking ? 'fa-volume-mute muteIcon' : 'fa-volume-up'} `}></i>
             </button>
         </div>
     )

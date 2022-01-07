@@ -27,6 +27,7 @@ export default function Spelling() {
     }, [wordIndex] )
 
     function focusOnInput() {
+        console.log('focused')
         if (!(inputRef.current === document.activeElement)) {
             console.log('focused')
             inputRef.current.focus()
@@ -58,11 +59,6 @@ export default function Spelling() {
         const splitedSentence = wordObj.sentence.match(/\w+(?:'\w+)*|\s+|[^\s\w]+/g)
         
         let wordToSpell = splitedSentence.find( (word) => word.toLowerCase() === wordObj.word.toLowerCase() || word.toLowerCase() === wordObj.word.toLowerCase()  + "'s" || word.toLowerCase() === wordObj.word.toLowerCase()  + "ed" || word.toLowerCase() === wordObj.word.toLowerCase()  + "ing" || word.toLowerCase() === wordObj.word.toLowerCase()  + "'t")
-
-        /* if (wordToSpell === undefined) { 
-            console.log('backup option') 
-            wordToSpell = splitedSentence.find( (word) => word.toLowerCase() === wordObj.word.toLowerCase()  + "ed")
-        } */
     
         const iOfWordFound = splitedSentence.indexOf(wordToSpell)
     
@@ -115,12 +111,12 @@ export default function Spelling() {
                 <input
                     ref={inputRef}
                     type="text"
-                    autocomplete="off"
+                    autoComplete="off"
                     name="userInputWriting"
                     onChange={handleChange}
                     value={userInputWriting}
                 /> 
-                <button >aa</button>
+                <button >Submit</button>
             </form>
         </main>
     )

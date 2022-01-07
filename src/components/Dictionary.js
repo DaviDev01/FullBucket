@@ -37,7 +37,7 @@ export default function Dictionary(props) {
         const coords = selection.getRangeAt(0).cloneRange().getClientRects()[0]
         const rightCoords = selection.getRangeAt(0).cloneRange().getBoundingClientRect().right
         const topCoords = selection.getRangeAt(0).cloneRange().getBoundingClientRect().top
-
+        console.log('topCoords:', topCoords, 'coords.y:', coords.y  )
         setCoords(
             {
                 x: window.innerWidth - coords.x - 10 < definitionCardWidth ? rightCoords - definitionCardWidth + "px": coords.x  + "px", 
@@ -84,8 +84,7 @@ export default function Dictionary(props) {
                 {
                 top: coords.y, 
                 left: coords.x, 
-                width: `${componentWidth}%`/* , 
-                height: `${componentHeight}%`, */
+                width: `${componentWidth}%`
                 }
             }
             onClick={(e) => e.stopPropagation()}
