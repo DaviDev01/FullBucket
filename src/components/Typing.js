@@ -32,8 +32,7 @@ function Typing() {
         onChange={handleFontChange}
     />
     const [TextDisplayCoords, setTextDisplayCoords] = useState( typingContRef.current === null ? {y: 0, x: 0} :  typingContRef.current.getBoundingClientRect() )
-    const settings  = 
-    <div className="settings" style={{bottom: `${TextDisplayCoords.y + 5}px`, right: `${TextDisplayCoords.x + 20}px`}}>
+    const settings  = <div className="settings">
         <i 
             className={`${showEditor ? 'fas fa-check' : 'fas fa-pen'} editIcon`} 
             onClick={toggleEditor} 
@@ -66,14 +65,16 @@ function Typing() {
     }, [] )
 
     function setPositionOnResize() {
+        console.log('adadasdfa')
         setTextDisplayCoords(typingContRef.current.getBoundingClientRect())
     }
 
     window.onresize =  setPositionOnResize
-
     function focusOnKeyDown(zEvent) {
-        if (!zEvent.ctrlKey  &&  !zEvent.altKey && !zEvent.shiftKey && !TextDisplayRef.current.className.includes('displayNone')) {
+        if (!zEvent.ctrlKey &&  !zEvent.altKey && !TextDisplayRef.current.className.includes('stayUnfocused')) {
             setFocus()
+        } else if (!zEvent.ctrlKey &&  !zEvent.altKey) {
+            setSIFocus()
         }
     }
 
@@ -138,25 +139,24 @@ function Typing() {
                 <div 
                     ref={TextDisplayRef}
                     style={TAfontSize}
-                    className={
-                        `typing--sampleDisplay ${showEditor && 'displayNone'}`
-                    }
+                    className={`typing--sampleDisplay ${showEditor && 'stayUnfocused'}`}
                     onClick={() => setHovered(false)}
                     onScroll={() => setShowDictionary(false)}
                 >  
                     <p>{sampleState}</p>
                 </div>
-                <textarea 
-                    style={TAfontSize}
-                    ref={texareaFocus}
-                    className={`typing--sampleInput ${showEditor ? 'displayBlock' : 'displayNone'}`}
-                    type="text"
-                    name="sample"
-                    onChange={handleSample}
-                    onClick={() => setHovered(false)}
-                    value={sample}
-                />
-                {settings}
+                <div className="sampleAreaBottom">
+                    <textarea 
+                        ref={texareaFocus}
+                        className={`typing--sampleInput ${!showEditor && 'displayNone'}`}
+                        type="text"
+                        name="sample"
+                        onChange={handleSample}
+                        onClick={() => setHovered(false)}
+                        value={sample}
+                    />
+                    {settings}
+                </div>
             </div>
             
             <textarea 

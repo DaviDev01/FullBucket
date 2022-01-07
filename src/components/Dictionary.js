@@ -24,7 +24,7 @@ export default function Dictionary(props) {
         const textSelectedArray = selection.toString().trim().split(' ')
         const isNotInAInput = window.getSelection().anchorNode.parentElement.localName === 'span'
 
-        if (selection && textSelectedArray.length === 1 && !props.showEditor && isNotInAInput && textSelectedArray[0] !== '' && (zEvent.ctrlKey  &&  zEvent.altKey) ) {
+        if (selection && textSelectedArray.length === 1 && isNotInAInput && textSelectedArray[0] !== '' && (zEvent.ctrlKey  &&  zEvent.altKey) ) {
             getDictionaryData(selection.toString())  
         }
 
@@ -40,8 +40,8 @@ export default function Dictionary(props) {
 
         setCoords(
             {
-                x: window.innerWidth - coords.x  < definitionCardWidth ? rightCoords - definitionCardWidth + "px": coords.x  + "px", 
-                y: window.innerHeight - coords.y < definitionCardHeight ? topCoords - definitionCardHeight + "px" : coords.y + ((props.fontSize * 16) * 1.2 ) + "px"
+                x: window.innerWidth - coords.x - 10 < definitionCardWidth ? rightCoords - definitionCardWidth + "px": coords.x  + "px", 
+                y: window.innerHeight - coords.y < definitionCardHeight && coords.y > definitionCardHeight ? topCoords - definitionCardHeight + "px" : coords.y + ((props.fontSize * 16) * 1.2 ) + "px"
             }
         )
     }
