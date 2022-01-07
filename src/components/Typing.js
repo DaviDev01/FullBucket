@@ -31,7 +31,6 @@ function Typing() {
         step={.1} 
         onChange={handleFontChange}
     />
-    const [TextDisplayCoords, setTextDisplayCoords] = useState( typingContRef.current === null ? {y: 0, x: 0} :  typingContRef.current.getBoundingClientRect() )
     const settings  = <div className="settings">
         <i 
             className={`${showEditor ? 'fas fa-check' : 'fas fa-pen'} editIcon`} 
@@ -59,17 +58,10 @@ function Typing() {
 
     useEffect( () => {
         setFocus()
-        setPositionOnResize()
         document.addEventListener("keydown", focusOnKeyDown)
         return () => document.removeEventListener("keydown", focusOnKeyDown)
     }, [] )
 
-    function setPositionOnResize() {
-        console.log('adadasdfa')
-        setTextDisplayCoords(typingContRef.current.getBoundingClientRect())
-    }
-
-    window.onresize =  setPositionOnResize
     function focusOnKeyDown(zEvent) {
         if (!zEvent.ctrlKey &&  !zEvent.altKey && !TextDisplayRef.current.className.includes('stayUnfocused')) {
             setFocus()
