@@ -161,9 +161,7 @@ function Typing() {
             />
             <Dictionary 
                 fontSize={fontSize} 
-                showDictionary={showDictionary} 
-                showEditor={showEditor}
-                TextDisplayRef={TextDisplayRef}
+                showDictionary={showDictionary}
                 setShowDictionary={setShowDictionary}
             />
         </main>

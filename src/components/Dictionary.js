@@ -6,11 +6,12 @@ export default function Dictionary(props) {
     const [noMeaning, setNoMeaning] = useState(false)
     const componentWidth = 30 
     const height = useRef(null)
+    /* const [cardTooBig, setCardTooBig] = useState(false) */
 
     useEffect( () => {
         (dictionaryData !== null && height.current.clientHeight > 0) &&
         getTextPosition()
-    }, [dictionaryData] ) 
+    }, [dictionaryData] )
 
     useEffect( () => {
         document.addEventListener("keydown", isMyKey)
@@ -18,6 +19,8 @@ export default function Dictionary(props) {
             document.removeEventListener("keydown", isMyKey)
         }
     })
+
+    
 
     function isMyKey(zEvent) {
         const selection = window.getSelection()
@@ -37,7 +40,10 @@ export default function Dictionary(props) {
         const coords = selection.getRangeAt(0).cloneRange().getClientRects()[0]
         const rightCoords = selection.getRangeAt(0).cloneRange().getBoundingClientRect().right
         const topCoords = selection.getRangeAt(0).cloneRange().getBoundingClientRect().top
-        console.log('topCoords:', topCoords, 'coords.y:', coords.y  )
+        if (definitionCardHeight > (window.innerHeight / 4)) { height.current.style.overflowY = 'scroll' }
+        
+
+        console.log('definitionCardHeight:', definitionCardHeight, 'coords.y:', coords.y  )
         setCoords(
             {
                 x: window.innerWidth - coords.x - 10 < definitionCardWidth ? rightCoords - definitionCardWidth + "px": coords.x  + "px", 
@@ -79,16 +85,17 @@ export default function Dictionary(props) {
 
     return (
         <div 
+            ref={height}
             className={`list-container ${!props.showDictionary && 'hidden'}`} 
             style={
                 {
                 top: coords.y, 
                 left: coords.x, 
-                width: `${componentWidth}%`
+                width: `${componentWidth}%`,
+                maxHeight: `${window.innerHeight / 2}px`
                 }
             }
             onClick={(e) => e.stopPropagation()}
-            ref={height}
         >   
             {noMeaning ?
             <p className='NoDefinitions'>No Definitions Found</p> :

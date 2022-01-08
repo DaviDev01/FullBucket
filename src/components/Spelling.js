@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react"
 import words from "../words"
-
+import Dictionary from "./Dictionary"
 
 export default function Spelling() {
+    const fontSize = 1.5
     let synth = window.speechSynthesis
     const [wordIndex, setWordIndex] = useState(JSON.parse(localStorage.getItem('wordIndex')) || 0)
     const wordsArray = words
@@ -15,9 +16,11 @@ export default function Spelling() {
     const [sentenceStart, setSentenceStart] = useState('Type what you think is in the')
     const [sentenceEnd, setSentenceEnd] = useState('and press enter to continue')
     const sentenceRef = useRef(null)
+    const [showDictionary, setShowDictionary] = useState(false)
+
 
     useEffect( () => {
-        focusOnInput()
+        inputRef.current.focus()
         document.addEventListener("keydown", focusOnInput)
         return () => document.removeEventListener("keydown", focusOnInput)
     }, [] )
@@ -26,9 +29,9 @@ export default function Spelling() {
         localStorage.setItem('wordIndex', JSON.stringify(wordIndex -1))
     }, [wordIndex] )
 
-    function focusOnInput() {
+    function focusOnInput(zEvent) {
         console.log('focused')
-        if (!(inputRef.current === document.activeElement)) {
+        if (!(inputRef.current === document.activeElement)  && !zEvent.ctrlKey &&  !zEvent.altKey) {
             console.log('focused')
             inputRef.current.focus()
         }
@@ -94,9 +97,13 @@ export default function Spelling() {
             synth.speak(utterThis);
         }
     }
+
+    function toggleDictionary() {
+        setShowDictionary(false)
+    }
     
     return (
-        <main className="Spelling">
+        <main className="Spelling" onClick={() => toggleDictionary()}>
             <div
                 className="spellingDisplay"
             >  
@@ -118,6 +125,11 @@ export default function Spelling() {
                 /> 
                 <button >Submit</button>
             </form>
+            <Dictionary
+                fontSize={fontSize} 
+                showDictionary={showDictionary}
+                setShowDictionary={setShowDictionary}
+            />
         </main>
     )
 }
