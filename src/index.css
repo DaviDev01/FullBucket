@@ -279,6 +279,25 @@ span {
     border-radius: .7em .7em .7em .7em;
     position: absolute;
     text-align: left;
+    min-height: fit-content;
+    overflow-y: auto;
+}
+
+.list-container::-webkit-scrollbar {
+    width: 15px;
+}
+
+.list-container::-webkit-scrollbar-track {
+    background-color: transparent;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    margin-left: 5px;
+    display: flex;
+}
+
+.list-container::-webkit-scrollbar-thumb {
+    background-color: #e7e7e7cc;
+    cursor: pointer;
 }
 
 .list {
@@ -425,3 +444,12 @@ a {
 .fullSentence {
     display: inline-block;
 }
+
+.overFlowY {
+    overflow-y: auto;
+}
+
+/* .tooBig {
+    height: 45%;
+    overflow-y: scroll;
+} */
