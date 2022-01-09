@@ -209,7 +209,7 @@ const words = [
     { word: "like", sentence: "I really like you."},
     { word: "night", sentence: "The night is young."},
     { word: "live", sentence: "I'm going to live like there's no tomorrow."},
-    { word: "Mr.", sentence: "Mr. Morris is here."},
+    { word: "Mr", sentence: "Mr. Morris is here."},
     { word: "point", sentence: "You have a point."},
     { word: "believe", sentence: "I believe in you."},
     { word: "hold", sentence: "Just hold my hand."},

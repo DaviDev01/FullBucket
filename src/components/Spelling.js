@@ -60,9 +60,11 @@ export default function Spelling() {
     function getSentence(wordObj) {
 
         const splitedSentence = wordObj.sentence.match(/\w+(?:'\w+)*|\s+|[^\s\w]+/g)
-        
-        let wordToSpell = splitedSentence.find( (word) => word.toLowerCase() === wordObj.word.toLowerCase() || word.toLowerCase() === wordObj.word.toLowerCase()  + "'s" || word.toLowerCase() === wordObj.word.toLowerCase()  + "ed" || word.toLowerCase() === wordObj.word.toLowerCase()  + "ing" || word.toLowerCase() === wordObj.word.toLowerCase()  + "'t")
-    
+        console.log(splitedSentence, wordObj.word)
+        let wordToSpell = splitedSentence.find( (word) => {
+            return word.toLowerCase() === wordObj.word.toLowerCase() || word.toLowerCase() === wordObj.word.toLowerCase()  + "'s" || word.toLowerCase() === wordObj.word.toLowerCase()  + "ed" || word.toLowerCase() === wordObj.word.toLowerCase()  + "ing" || word.toLowerCase() === wordObj.word.toLowerCase()  + "'t" || word.toLowerCase() === wordObj.word.toLowerCase()  + "."
+        })
+        if (wordToSpell === undefined) {setWordIndex(prev => prev + 1)}
         const iOfWordFound = splitedSentence.indexOf(wordToSpell)
     
         const sentenceStart = splitedSentence.filter( (word, i) => i < iOfWordFound) 
@@ -72,7 +74,7 @@ export default function Spelling() {
         const wordWithSpans = wordToSpell.split('').map((item, i) => {
             return <span key={i} className="wordToSpell">{item}</span>
         })
-        console.log(splitedSentence, wordObj.word)
+        
         setSample(wordObj.word)
         setSentenceStart(sentenceStart.join(''))
         setSampleState(wordWithSpans)
