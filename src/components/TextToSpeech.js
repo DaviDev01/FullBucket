@@ -54,10 +54,10 @@ export default function TextToSpeech(props) {
                 </option>)
             })
 
-            optionsEls.splice(0, 0, <optgroup label="Google:" className='aptgroup'>)
+            /* optionsEls.splice(0, 0, <optgroup label="Google:" className='aptgroup'>)
             optionsEls.splice(19, 0, </optgroup>)
             optionsEls.splice(20, 0, <optgroup label="Microsoft:" className='aptgroup'>)
-            optionsEls.splice(voices.length, 0, </optgroup>)
+            optionsEls.splice(voices.length, 0, </optgroup>) */
             setVoicesEl(optionsEls)
         }
         

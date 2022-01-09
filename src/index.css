@@ -9,6 +9,11 @@ body {
 
 * {box-sizing: border-box; margin: 0; /* border: solid 1px pink; */}
 
+.outerMostContainer {
+    display: grid;
+    grid-template-columns: minmax(1em, 1fr) 80% minmax(1em, 1fr);
+}
+
 .greenText {
     background-color: rgb(182, 252, 182);
 }
@@ -18,6 +23,7 @@ body {
 }
 
 .typing {
+    grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,8 +44,6 @@ body {
 
 .typing--sampleDisplay {
     height: 100%;
-    border: .1px solid black;
-    border-bottom: none;
     margin: 0;
     overflow-y: auto;
 }
@@ -59,6 +63,8 @@ body {
     flex-direction: column;
     height: 80vh;
     width: 80%;
+    border-radius: 5px;
+    box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.521), 0px 6px 10px 2px rgb(0 0 0 / 10%);
 }
 
 .typing--sampleInput {
@@ -92,8 +98,6 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-content: flex-start;
-    border: .1px solid black;
-    border-top: none;
     padding: 0 2em .8em 0;
 }
 
@@ -103,7 +107,7 @@ textarea::-webkit-scrollbar {
 }
 
 textarea::-webkit-scrollbar-thumb {
-    border-radius: 5px;
+    border-radius: 15px;
     background-color: rgba(29, 27, 27, 0.705);
 }
 
@@ -170,7 +174,7 @@ input[type='range'] {
     right: -38px;
     bottom: 40px;
 }
-
+.social--li,
 .editIcon,
 .fa-text-height,
 .TTS-speakerIcon,
@@ -256,14 +260,16 @@ span {
 .TTs-option {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
+    margin-bottom: 4px;
+    text-align: left;
 }
 
-.aptgroup {
+/* .aptgroup {
     text-align: left;
     font-size: .7rem;
     font-weight: 700;
     text-transform: uppercase;
-}
+} */
 
 .maring-top {
     align-self: flex-end;
@@ -275,7 +281,6 @@ span {
     background-color: #fff;
     padding: 1em;
     box-shadow: 2px 2px 15px 5px rgba(0, 0, 0, 0.103);
-    border: none;
     border-radius: .7em .7em .7em .7em;
     position: absolute;
     text-align: left;
@@ -341,17 +346,32 @@ span {
 }
 
 .header {
+    grid-column: 1 / span 3;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     background-color: #fff;
-    padding: 2em;
-    /* padding-right: 10%;
-    padding-left: 10%; */
+    padding: 2em 0;
+    box-shadow: 2px 2px 1px .5px rgba(94, 94, 94, 0.171);
 }
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+}
+
 .header--title {
     font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header--nav {
+    display: flex;
+    align-items: center;
 }
 
 .header--ul {
@@ -364,7 +384,14 @@ span {
 }
 .header--li {
     font-family: 'Inter', sans-serif;
-    
+    font-weight: 700;
+    font-size: 1rem;
+    opacity: .9;
+}
+
+.header--li:hover {
+    color: rgb(0, 0, 0);
+    opacity: 1;
 }
 
 a {
@@ -415,13 +442,13 @@ a {
 }
 
 .Spelling {
-    width: 80%;
+    grid-column: 1 / -1;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .margin {
@@ -449,7 +476,90 @@ a {
     overflow-y: auto;
 }
 
-/* .tooBig {
-    height: 45%;
-    overflow-y: scroll;
-} */
+.subTitle {
+    margin-top: -8px;
+    text-align: left;
+}
+
+.bucketIcon {
+    font-size: 1.8rem;
+    margin-left: .3em;
+}
+
+.hr {
+    color: rgb(143, 143, 143);
+}
+
+.footer {
+    grid-column: 1 / span 3;
+    background-color: #fff;
+    padding: 2em 0;
+    box-shadow: -2px -2px 1px 0.5px rgba(0, 0, 0, 0.17);
+}
+
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin: 0;
+    background-color: #F5F5F5;
+    margin-top: auto;
+}
+
+.social--ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    gap: 50px;
+}
+
+.social--li {
+    font-size: 30px;
+}
+
+.social--li i:hover {
+    color: #000;
+    opacity: 1;
+}
+
+.About--main {
+    grid-column: 1 / -1;
+    min-height: 100vh;
+    margin: auto;
+}
+
+.About--article {
+    width: 80%;
+    margin: 63px auto;
+}
+
+.About--article_title {
+    margin: 2em 0 .7em 0;
+    color: rgb(41, 41, 41);
+}
+
+.About--article_body {
+    max-width: 900px;
+    letter-spacing: 1px;
+    line-height: 1.7;
+}
+
+.About--editIcon {
+    color: rgb(29, 27, 27);
+    opacity: .8;
+    background: transparent;
+}
+
+.About--article_img {
+    max-width: 100%;
+    display: block;
+    margin: 1em auto;
+}
+
+.selectedText {
+    background-color: #3297FD;
+    padding: .23em 0;
+    color: #fff;
+}

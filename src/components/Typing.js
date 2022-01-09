@@ -3,7 +3,7 @@ import TextToSpeech from "./TextToSpeech"
 import Dictionary from "./Dictionary"
 
 function Typing() {
-    const [sample, setSample] = useState('The quick brown fox jumps over the lazy dog')
+    const [sample, setSample] = useState("Try to type what is written here. Select text with your mouse and click the speaker icon to hear it or press ctrl + alt to see the word's definition.")
     const [userInputWriting, setUserInputWriting] = useState("")
     const [showEditor, setShowEditor] = useState(false)
     const inputFocus = useRef(null)
