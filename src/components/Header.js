@@ -1,7 +1,16 @@
-import React from "react"
+import React, {useContext, useState} from "react"
 import {Link} from 'react-router-dom'
+import { Context } from "../Context"
 
 export default function Header() {
+    const {lang, setChosenLang, chosenLang} = useContext(Context)
+    const [showNav, setShowNav] = useState(false)
+
+    function handleChange(e) {
+        const {value} = e.target
+        setChosenLang(value)
+    }
+
     return (
         <header className="header">
             <div className="header-content">
@@ -11,16 +20,28 @@ export default function Header() {
                     <p className="subTitle">Study Environment</p>
                     <hr className="hr"/>
                 </Link>
-                <nav className="header--nav">
+                <button className="openBtn" onClick={() => setShowNav(true)}><i class="fas fa-bars openIcon"></i></button>
+                <nav className={`header--nav ${!showNav && 'hideNav'}`}>
+                    <button className="closeBtn" onClick={() => setShowNav(false)}><i className="fas fa-times closeIcon"></i></button>
                     <ul className="header--ul">
+                        <li className="header--li">
+                            <select 
+                                value={chosenLang}
+                                onChange={handleChange}
+                                className="header--select header--li"
+                            >
+                                <option className="header--option" value={0}>English</option>
+                                <option className="header--option" value={1}>Português</option>
+                            </select>
+                        </li>
                         <Link to="/">
-                            <li className="header--li">White board</li>
+                            <li className="header--li">Whiteboard</li>
                         </Link>
                         <Link to="/spelling">
                             <li className="header--li">Spelling Practice</li>
                         </Link>
                         <Link to="/about">
-                            <li className="header--li">About</li>
+                            <li className="header--li">{lang.about}</li>
                         </Link>
                     </ul>
                 </nav>

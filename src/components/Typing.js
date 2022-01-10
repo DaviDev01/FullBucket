@@ -1,15 +1,18 @@
-import React, {useState, useEffect, useRef} from "react"
+import React, {useState, useEffect, useRef, useContext} from "react"
 import TextToSpeech from "./TextToSpeech"
 import Dictionary from "./Dictionary"
+import { Context } from "../Context"
 
 function Typing() {
-    const [sample, setSample] = useState("Try to type what is written here. Select text with your mouse and click the speaker icon to hear it or press ctrl + alt to see the word's definition.")
+    const {lang} = useContext(Context)
+    const [sample, setSample] =  useState(lang.whiteboardInstructions)
     const [userInputWriting, setUserInputWriting] = useState("")
     const [showEditor, setShowEditor] = useState(false)
     const inputFocus = useRef(null)
     const texareaFocus = useRef(null)
     const TextDisplayRef = useRef(null)
     const typingContRef = useRef(null)
+    const mainRef = useRef(null)
     const [fontSize, setFontSize] = useState(1.2)
     const [showDictionary, setShowDictionary] = useState(false)
     const TAfontSize = {fontSize: `${fontSize}rem`} 
@@ -49,12 +52,20 @@ function Typing() {
         const {value} = e.target
         setFontSize(value)
     }
-
+    
     useEffect( () => {
         setSampleState(sample.split('').map((item, i) => {
             return <span key={i} >{item}</span>
         }))
     }, [sample] )
+
+    useEffect( () => {
+        setSampleState(lang.whiteboardInstructions.split('').map((item, i) => {
+            return <span key={i}>{item}</span>
+        }))
+        setUserInputWriting('')
+        setSample(lang.whiteboardInstructions)
+    }, [lang] )
 
     useEffect( () => {
         setFocus()
@@ -121,9 +132,13 @@ function Typing() {
     function toggleDictionary() {
         setShowDictionary(false)
     }
+
+    function scrollIntoView() {
+        mainRef.current.scrollIntoView()
+    }
     
     return (
-        <main className="typing" onClick={toggleDictionary}>
+        <main className="typing" onClick={toggleDictionary} ref={mainRef}>
             <div    
                 className="typing--sampleArea"
                 ref={typingContRef}
@@ -160,6 +175,8 @@ function Typing() {
                 value={userInputWriting}
             />
             <Dictionary 
+                currentParent={mainRef.current}
+                scrollIntoView={scrollIntoView}
                 fontSize={fontSize} 
                 showDictionary={showDictionary}
                 setShowDictionary={setShowDictionary}

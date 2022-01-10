@@ -8,6 +8,7 @@ export default function Spelling() {
     const [wordIndex, setWordIndex] = useState(JSON.parse(localStorage.getItem('wordIndex')) || 0)
     const wordsArray = words
     const inputRef = useRef(null)
+    const SpellingMainRef = useRef(null)
     const [sample, setSample] = useState('blank')
     const [userInputWriting, setUserInputWriting] = useState("")
     const [sampleState, setSampleState] = useState(sample.split('').map((item, i) => {
@@ -30,9 +31,8 @@ export default function Spelling() {
     }, [wordIndex] )
 
     function focusOnInput(zEvent) {
-        console.log('focused')
         if (!(inputRef.current === document.activeElement)  && !zEvent.ctrlKey &&  !zEvent.altKey) {
-            console.log('focused')
+            
             inputRef.current.focus()
         }
     }
@@ -60,7 +60,7 @@ export default function Spelling() {
     function getSentence(wordObj) {
 
         const splitedSentence = wordObj.sentence.match(/\w+(?:'\w+)*|\s+|[^\s\w]+/g)
-        console.log(splitedSentence, wordObj.word)
+
         let wordToSpell = splitedSentence.find( (word) => {
             return word.toLowerCase() === wordObj.word.toLowerCase() || word.toLowerCase() === wordObj.word.toLowerCase()  + "'s" || word.toLowerCase() === wordObj.word.toLowerCase()  + "ed" || word.toLowerCase() === wordObj.word.toLowerCase()  + "ing" || word.toLowerCase() === wordObj.word.toLowerCase()  + "'t" || word.toLowerCase() === wordObj.word.toLowerCase()  + "."
         })
@@ -103,9 +103,13 @@ export default function Spelling() {
     function toggleDictionary() {
         setShowDictionary(false)
     }
+
+    function scrollIntoView() {
+        SpellingMainRef.current.scrollIntoView()
+    }
     
     return (
-        <main className="Spelling" onClick={() => toggleDictionary()}>
+        <main className="Spelling" onClick={() => toggleDictionary()} ref={SpellingMainRef}>
             <div
                 className="spellingDisplay"
             >  
@@ -128,6 +132,8 @@ export default function Spelling() {
                 <button >Submit</button>
             </form>
             <Dictionary
+                currentParent={SpellingMainRef.current}
+                scrollIntoView={scrollIntoView}
                 fontSize={fontSize} 
                 showDictionary={showDictionary}
                 setShowDictionary={setShowDictionary}

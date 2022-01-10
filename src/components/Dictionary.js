@@ -28,6 +28,7 @@ export default function Dictionary(props) {
         const isNotInAInput = window.getSelection().anchorNode.parentElement.localName === 'span'
 
         if (selection && textSelectedArray.length === 1 && isNotInAInput && textSelectedArray[0] !== '' && (zEvent.ctrlKey  &&  zEvent.altKey) ) {
+            props.scrollIntoView()
             getDictionaryData(selection.toString())  
         }
 
@@ -40,18 +41,19 @@ export default function Dictionary(props) {
         const coords = selection.getRangeAt(0).cloneRange().getClientRects()[0]
         const rightCoords = selection.getRangeAt(0).cloneRange().getBoundingClientRect().right
         const topCoords = selection.getRangeAt(0).cloneRange().getBoundingClientRect().top
+        const bottomCoords = selection.getRangeAt(0).cloneRange().getBoundingClientRect().bottom
         if (definitionCardHeight > (window.innerHeight / 4)) { height.current.style.overflowY = 'scroll' }
         
 
-        console.log('definitionCardHeight:', definitionCardHeight, 'coords.y:', coords.y  )
+        
         setCoords(
             {
                 x: window.innerWidth - coords.x - 10 < definitionCardWidth ? rightCoords - definitionCardWidth + "px": coords.x  + "px", 
-                y: window.innerHeight - coords.y < definitionCardHeight && coords.y > definitionCardHeight ? topCoords - definitionCardHeight + "px" : coords.y + ((props.fontSize * 16) * 1.2 ) + "px"
+                y: (window.innerHeight - coords.y < definitionCardHeight) && (coords.y > definitionCardHeight) ? topCoords - definitionCardHeight + "px" : bottomCoords + ((props.fontSize * 16) *(props.currentParent.className === 'Spelling' ? 4.8 : 0 )) + "px"
             }
         )
     }
-
+    
     function getDictionaryData(word) {
         fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
             .then(resp => resp.json())
