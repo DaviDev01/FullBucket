@@ -7,7 +7,7 @@ export default function TextToSpeech(props) {
     const [option, setOption] = useState("Google US English");
     let [inputTxt, setInputTxt] = useState('')
     const [clicked, setClicked] = useState(false)
-    let audioControlsStyle = props.hovered && !clicked ? {marginRight: '55.5px'} : props.hovered && clicked ? {marginRight: '34.5px'} : null
+    let audioControlsStyle = /* props.hovered && !clicked ? {marginRight: '55.5px'} : props.hovered && clicked ? {marginRight: '34.5px'} : */ null
     const [speaking, setSpeaking] = useState(false)
 
     function handleChange(e) {

@@ -20,7 +20,7 @@ export default function Header() {
                     <p className="subTitle">Study Environment</p>
                     <hr className="hr"/>
                 </Link>
-                <button className="openBtn" onClick={() => setShowNav(true)}><i class="fas fa-bars openIcon"></i></button>
+                <button className="openBtn" onClick={() => setShowNav(true)}><i className="fas fa-bars openIcon"></i></button>
                 <nav className={`header--nav ${!showNav && 'hideNav'}`}>
                     <button className="closeBtn" onClick={() => setShowNav(false)}><i className="fas fa-times closeIcon"></i></button>
                     <ul className="header--ul">
@@ -35,13 +35,13 @@ export default function Header() {
                             </select>
                         </li>
                         <Link to="/">
-                            <li className="header--li">Whiteboard</li>
+                            <li onClick={() => setShowNav(false)} className="header--li">Whiteboard</li>
                         </Link>
                         <Link to="/spelling">
-                            <li className="header--li">Spelling Practice</li>
+                            <li onClick={() => setShowNav(false)} className="header--li">Spelling Practice</li>
                         </Link>
                         <Link to="/about">
-                            <li className="header--li">{lang.about}</li>
+                            <li onClick={() => setShowNav(false)} className="header--li">{lang.about}</li>
                         </Link>
                     </ul>
                 </nav>
