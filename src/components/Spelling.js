@@ -114,8 +114,8 @@ export default function Spelling() {
                 className="spellingDisplay"
             >  
               <p ref={sentenceRef} className="fullSentence"><span>{sentenceStart}</span> <span className="wordToSpellEl">{sampleState}</span> <span>{sentenceEnd}</span></p> 
-              <i  onClick={() => speak(wordIndex > 0 ? wordsArray[wordIndex - 1].sentence : `${sentenceStart} blank ${sentenceEnd}`)} className={`TTS-speakerIcon margin fas fa-volume-up ${sample === 'blank' && 'displayNone'}`}></i>
             </div>
+            
             <form 
                 className="SpellingForm"
                 onSubmit={submit}
@@ -128,8 +128,15 @@ export default function Spelling() {
                     name="userInputWriting"
                     onChange={handleChange}
                     value={userInputWriting}
+                    className="spellingInput"
                 /> 
-                <button >Submit</button>
+                <div className="spellingControls">
+                    <i onClick={(e) => focusOnInput(e)} className="fas fa-keyboard spellingKeyboard"></i>
+
+                    <button type="submit" className="spellingBtn"><i className={`fas fa-check editIcon`}></i></button>
+
+                    <i  onClick={() => speak(wordIndex > 0 ? wordsArray[wordIndex - 1].sentence : `${sentenceStart} blank ${sentenceEnd}`)} className={`TTS-speakerIcon fas fa-volume-up ${sample === 'blank' && "displayNone"}`}></i>
+                </div>
             </form>
             <Dictionary
                 currentParent={SpellingMainRef.current}

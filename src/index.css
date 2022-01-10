@@ -70,16 +70,12 @@ body {
 .typing--sampleInput {
     resize: none;
     align-self: flex-end;
-    width: 100%;
     color: gray;
-    border: solid gray 1px;
     opacity: 1;
     padding: .5em;
     font-size: 1rem;
-    /* pointer-events: none; */
-    resize: none; 
     height: 100px;
-    width: 300px;
+    width: 100%;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 400;
     letter-spacing: 1px;
@@ -95,10 +91,10 @@ body {
 
 .sampleAreaBottom {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-content: flex-start;
-    padding: 0 2em .8em 0;
+    flex-direction: column; 
+    justify-content: center;
+    align-content: center;
+    padding: 0;
 }
 
 textarea::-webkit-scrollbar {
@@ -171,20 +167,29 @@ input[type='range'] {
 
 .rangeFont {
     position: absolute;
-    right: -38px;
-    bottom: 40px;
+    left: 72%;
+    bottom: 47px;
 }
+
 .social--li,
 .editIcon,
 .fa-text-height,
 .TTS-speakerIcon,
 .TTS-settingsIcon,
-.muteIcon {
+.muteIcon,
+.keyboardIcon,
+.spellingKeyboard,
+.searchIcon {
     cursor: pointer;
     font-size: 1.4rem;
     color: rgb(29, 27, 27);
     opacity: .8;
     background: transparent;
+}
+
+.keyboardIcon {
+    order: -1;
+    font-size: 1.55rem;
 }
 
 .muteIcon {
@@ -196,7 +201,9 @@ input[type='range'] {
 .TTS-speakerIcon:hover,
 .TTS-settingsIcon:hover,
 .TTS-select:hover,
-.muteIcon:hover {
+.muteIcon:hover,
+.spellingKeyboard:hover,
+.searchIcon:hover {
     opacity: 1;
 }
 
@@ -209,12 +216,12 @@ span {
 .settings {
     display: flex;
     align-items: flex-end;
-    justify-content: space-between;
-    width: 180px;
+    justify-content: space-around;
+    width: 100%;
     height: 68px;
-    align-self: flex-end;
+    align-self: center;
     position: relative;
-    margin-left: auto;
+    padding: 0 0 .5em 0;
 }
 
 .settings > * {
@@ -230,7 +237,9 @@ span {
     grid-template-columns: repeat(2, 1fr);
     align-content: center;
     gap: 0.5em;
-    align-self: flex-start;
+    
+    align-self: flex-end;
+    margin: 0 0 3px 0;
 }
 
 
@@ -367,7 +376,7 @@ span {
     display: flex;
     align-items: center;
     position: fixed;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.966);
     top: 0;
     right: 0;
     bottom: 0;
@@ -468,7 +477,7 @@ a {
 }
 
 .SpellingForm {
-    opacity: 0;
+    opacity: 1;
 }
 
 .SpellingInput {
@@ -482,6 +491,8 @@ a {
 
 .fullSentence {
     display: inline-block;
+    padding: 0 1em;
+    text-align: center;
 }
 
 .overFlowY {
@@ -609,6 +620,24 @@ a {
     font-size: 1.5rem;
 }
 
+.spellingControls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+
+.spellingBtn {
+    background: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.spellingInput {
+    opacity: 0;
+}
+
 @media (min-width: 900px) {
     .openBtn,
     .closeBtn {
@@ -646,3 +675,87 @@ a {
         height: initial;
     }
 }
+
+@media (min-width: 280px) {
+    .rangeFont {
+        left: 68%;
+    }
+}
+
+@media (min-width: 360px) {
+    .rangeFont {
+        left: 72%;
+    }
+}
+
+@media (min-width: 393px) {
+    .rangeFont {
+        left: 73.4%;
+    }
+}
+
+@media (min-width: 412px) {
+    .rangeFont {
+        left: 75%;
+    }
+}
+
+@media (min-width: 500px) {
+    .rangeFont {
+        left: 76.5%;
+    }
+}
+
+@media (min-width: 600px) {
+    .rangeFont {
+        left: 78.6%;
+    }
+}
+
+@media (min-width: 700px) {
+    .rangeFont {
+        left: 79.8%;
+    }
+}
+
+@media (min-width: 800px) {
+    .sampleAreaBottom {
+        flex-direction: row; 
+        justify-content: space-between;
+        align-content: flex-start;
+        padding: 0 2em .8em 0;
+    }
+
+    .typing--sampleInput {  
+        width: 300px;
+    }
+
+    .settings {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        width: 180px;
+        height: 68px;
+        align-self: flex-end;
+        position: relative;
+        margin-left: auto;
+        padding: none;
+    }
+
+    .rangeFont {
+        position: absolute;
+        left: initial;
+        right: -38px;
+        bottom: 47px;
+    }
+    
+}
+
+@media (pointer: fine) {
+    .keyboardIcon,
+    .spellingKeyboard {
+        order: -1;
+        display: none;
+    }
+}
+

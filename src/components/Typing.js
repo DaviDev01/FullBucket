@@ -12,6 +12,7 @@ function Typing() {
     const texareaFocus = useRef(null)
     const TextDisplayRef = useRef(null)
     const typingContRef = useRef(null)
+    /* const definitionRef = useRef(null) */
     const mainRef = useRef(null)
     const [fontSize, setFontSize] = useState(1.2)
     const [showDictionary, setShowDictionary] = useState(false)
@@ -20,13 +21,14 @@ function Typing() {
         return <span key={i}>{item}</span>
     }))
     const [hovered, setHovered] = useState(false)
-    const adjustFontEl =  !hovered ? 
+    const adjustFontEl =  
+    <>
     <i 
-        className="fas fa-text-height"
+        className={`fas fa-text-height ${hovered && 'hidden'}`}
         onClick={() => setHovered(true)}
-    ></i> : 
+    ></i>  
     <input 
-        className="rangeFont" 
+        className={`rangeFont  ${!hovered && 'hidden'}`} 
         type="range" 
         min="0.5" 
         max="10" 
@@ -34,11 +36,14 @@ function Typing() {
         step={.1} 
         onChange={handleFontChange}
     />
+    </>
     const settings  = <div className="settings">
+        {/* <i ref={definitionRef} className="fas fa-search searchIcon"></i> */}
         <i 
             className={`${showEditor ? 'fas fa-check' : 'fas fa-pen'} editIcon`} 
             onClick={toggleEditor} 
         ></i>
+        <i onClick={() => setFocus()} className="fas fa-keyboard keyboardIcon"></i>
         <TextToSpeech hovered={hovered}/>
         {adjustFontEl}    
     </div>
@@ -175,6 +180,7 @@ function Typing() {
                 value={userInputWriting}
             />
             <Dictionary 
+                /* definitionRef={definitionRef} */
                 currentParent={mainRef.current}
                 scrollIntoView={scrollIntoView}
                 fontSize={fontSize} 

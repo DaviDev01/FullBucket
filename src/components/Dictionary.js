@@ -6,6 +6,7 @@ export default function Dictionary(props) {
     const [noMeaning, setNoMeaning] = useState(false)
     const componentWidth = 30 
     const height = useRef(null)
+    const selection = window.getSelection()
     /* const [cardTooBig, setCardTooBig] = useState(false) */
 
     useEffect( () => {
@@ -15,21 +16,29 @@ export default function Dictionary(props) {
 
     useEffect( () => {
         document.addEventListener("keydown", isMyKey)
+        
+        document.addEventListener('touchend', clickDefinition)
         return () => {
             document.removeEventListener("keydown", isMyKey)
+            document.removeEventListener('touchend', () => clickDefinition)
         }
     })
 
-    
+    function clickDefinition() {
+        if (selection.toString() !== '') {
+            props.scrollIntoView()
+            getDictionaryData(selection.toString())
+        }
+    }
 
     function isMyKey(zEvent) {
-        const selection = window.getSelection()
         const textSelectedArray = selection.toString().trim().split(' ')
         const isNotInAInput = window.getSelection().anchorNode.parentElement.localName === 'span'
-
+        
         if (selection && textSelectedArray.length === 1 && isNotInAInput && textSelectedArray[0] !== '' && (zEvent.ctrlKey  &&  zEvent.altKey) ) {
             props.scrollIntoView()
             getDictionaryData(selection.toString())  
+            console.log('heyy')
         }
 
     }
@@ -53,7 +62,7 @@ export default function Dictionary(props) {
             }
         )
     }
-    
+
     function getDictionaryData(word) {
         fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
             .then(resp => resp.json())
