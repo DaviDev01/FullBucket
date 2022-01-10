@@ -264,13 +264,6 @@ span {
     text-align: left;
 }
 
-/* .aptgroup {
-    text-align: left;
-    font-size: .7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-} */
-
 .maring-top {
     align-self: flex-end;
     margin: 2.3px;
@@ -286,6 +279,7 @@ span {
     text-align: left;
     min-height: fit-content;
     overflow-y: auto;
+    z-index: 10;
 }
 
 .list-container::-webkit-scrollbar {
@@ -372,6 +366,20 @@ span {
 .header--nav {
     display: flex;
     align-items: center;
+    position: fixed;
+    background-color: black;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 50%;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    z-index: 20;
+}
+
+.hideNav {
+    transform: translate(100%);
 }
 
 .header--ul {
@@ -381,17 +389,21 @@ span {
     list-style: none;
     padding: 0;
     gap: 2em;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    padding: 3em 1em;
+    text-align: left;
 }
+
 .header--li {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 1rem;
-    opacity: .9;
 }
 
 .header--li:hover {
-    color: rgb(0, 0, 0);
-    opacity: 1;
+    color: rgb(119, 119, 119);
 }
 
 a {
@@ -562,4 +574,75 @@ a {
     background-color: #3297FD;
     padding: .23em 0;
     color: #fff;
+}
+
+.header--select {
+    border: none;
+    text-align: left;
+    color: #fff;
+    background: none;
+}
+
+.header--option {
+    font-size: .8rem;
+    border: none;
+}
+
+.openBtn {
+    background: none;
+    border: none;
+}
+
+.openIcon {
+    font-size: 1.8rem;
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    align-self: flex-end;
+    padding: 1em 1em 0 0;
+}
+
+.closeIcon {
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+@media (min-width: 900px) {
+    .openBtn,
+    .closeBtn {
+        display: none;
+    }
+
+    .header--nav {
+        position: initial;
+        display: flex;
+        align-items: center;
+        background-color: white;
+        justify-content: initial;
+        flex-direction: initial;
+        color: black;
+        z-index: initial;
+    }
+
+    .header--select {
+        text-align: right;
+        color: #000;
+        background: none;
+    }
+
+    .hideNav {
+        transform: translate(0);
+    }
+
+    .header--ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        list-style: none;
+        padding: 0;
+        gap: 2em;
+        height: initial;
+    }
 }
