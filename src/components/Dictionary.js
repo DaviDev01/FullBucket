@@ -20,8 +20,7 @@ export default function Dictionary(props) {
         isMyKey(zEvent)
     };
 
-    const onClick = () => {
-        console.log('click is triggered')
+    const onClick = (e) => {
     }
 
     const defaultOptions = {
@@ -40,12 +39,12 @@ export default function Dictionary(props) {
     useEffect( () => {
         document.addEventListener("keydown", isMyKey)
         
-        document.addEventListener('touchstart', longPressEvent.onTouchStart)
-        document.addEventListener('touchend', longPressEvent.onTouchEnd)
+        props.sentenceRef.current.addEventListener('touchstart', longPressEvent.onTouchStart)
+        props.sentenceRef.current.addEventListener('touchend', longPressEvent.onTouchEnd)
         return () => {
             document.removeEventListener("keydown", isMyKey)
-            document.removeEventListener('touchstart', longPressEvent.onTouchStart)
-            document.removeEventListener('touchend', longPressEvent.onTouchEnd)
+            props.sentenceRef.current.removeEventListener('touchstart', longPressEvent.onTouchStart)
+            props.sentenceRef.current.removeEventListener('touchend', longPressEvent.onTouchEnd)
         }
     }, [])
 

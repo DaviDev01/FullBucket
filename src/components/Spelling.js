@@ -139,6 +139,7 @@ export default function Spelling() {
                 </div>
             </form>
             <Dictionary
+                sentenceRef={sentenceRef}
                 currentParent={SpellingMainRef.current}
                 scrollIntoView={scrollIntoView}
                 fontSize={fontSize} 

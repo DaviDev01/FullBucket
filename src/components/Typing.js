@@ -12,6 +12,7 @@ function Typing() {
     const texareaFocus = useRef(null)
     const TextDisplayRef = useRef(null)
     const typingContRef = useRef(null)
+    const sentenceRef = useRef(null)
     /* const definitionRef = useRef(null) */
     const mainRef = useRef(null)
     const [fontSize, setFontSize] = useState(1.2)
@@ -155,7 +156,7 @@ function Typing() {
                     onClick={() => setHovered(false)}
                     onScroll={() => setShowDictionary(false)}
                 >  
-                    <p className="sentenceToType">{sampleState}</p>
+                    <p className="sentenceToType" ref={sentenceRef} >{sampleState}</p>
                 </div>
                 <div className="sampleAreaBottom">
                     <textarea 
@@ -181,6 +182,7 @@ function Typing() {
             />
             <Dictionary 
                 /* definitionRef={definitionRef} */
+                sentenceRef={sentenceRef}
                 currentParent={mainRef.current}
                 scrollIntoView={scrollIntoView}
                 fontSize={fontSize} 
