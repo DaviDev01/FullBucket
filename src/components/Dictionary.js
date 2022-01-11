@@ -4,7 +4,7 @@ export default function Dictionary(props) {
     const [dictionaryData, setDictionaryData] = useState(null)
     const [coords, setCoords] = useState({x: null, y: null})
     const [noMeaning, setNoMeaning] = useState(false)
-    const componentWidth = 30 
+    const componentWidth = window.innerWidth > 750 ? 30 : 50
     const height = useRef(null)
     const selection = window.getSelection()
     /* const [cardTooBig, setCardTooBig] = useState(false) */
@@ -17,28 +17,33 @@ export default function Dictionary(props) {
     useEffect( () => {
         document.addEventListener("keydown", isMyKey)
         
-        document.addEventListener('touchend', clickDefinition)
+        document.addEventListener('touchend', onDoublePress)
         return () => {
             document.removeEventListener("keydown", isMyKey)
-            document.removeEventListener('touchend', () => clickDefinition)
+            document.removeEventListener('touchend', () => onDoublePress)
         }
-    })
+    }, [])
 
-    function clickDefinition() {
-        if (selection.toString() !== '') {
-            props.scrollIntoView()
-            getDictionaryData(selection.toString())
+    let lastPress = 0;
+    
+    const onDoublePress = (zEvent) => {
+        const time = new Date().getTime();
+        const delta = time - lastPress;
+
+        const DOUBLE_PRESS_DELAY = 400;
+        if (delta < DOUBLE_PRESS_DELAY) {
+            isMyKey(zEvent)
         }
-    }
+        lastPress = time;
+    };
 
     function isMyKey(zEvent) {
         const textSelectedArray = selection.toString().trim().split(' ')
         const isNotInAInput = window.getSelection().anchorNode.parentElement.localName === 'span'
         
-        if (selection && textSelectedArray.length === 1 && isNotInAInput && textSelectedArray[0] !== '' && (zEvent.ctrlKey  &&  zEvent.altKey) ) {
+        if (selection && textSelectedArray.length === 1 && isNotInAInput && textSelectedArray[0] !== '' && (zEvent.type === 'touchend' || (zEvent.ctrlKey  &&  zEvent.altKey)) ) {
             props.scrollIntoView()
             getDictionaryData(selection.toString())  
-            console.log('heyy')
         }
 
     }
@@ -90,8 +95,8 @@ export default function Dictionary(props) {
         definitionsObjs.push(...definitionsArray)
     } ) : null 
 
-    const definitionsEls = definitionsObjs !== null ? definitionsObjs.map( (obj) => {
-        return <li className="definition">{obj.definition} <br/> {obj.synonyms.map( (item, i) => i <= 2 && <div className='synonsym'>{item}</div> )}</li>
+    const definitionsEls = definitionsObjs !== null ? definitionsObjs.map( (obj, i) => {
+        return <li key={i} className="definition">{obj.definition} <br/> {obj.synonyms.map( (item, i) => i <= 2 && <div key={i} className='synonsym'>{item}</div> )}</li>
     } ) : "no definition"
 
     return (
