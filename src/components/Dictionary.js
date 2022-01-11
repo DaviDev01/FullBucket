@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
+import useLongPress from "./useLongPress"
 
 export default function Dictionary(props) {
     const [dictionaryData, setDictionaryData] = useState(null)
@@ -14,17 +15,41 @@ export default function Dictionary(props) {
         getTextPosition()
     }, [dictionaryData] )
 
+
+    const onLongPress = (zEvent) => {
+        isMyKey(zEvent)
+    };
+
+    const onClick = () => {
+        console.log('click is triggered')
+    }
+
+    const defaultOptions = {
+        shouldPreventDefault: true,
+        delay: 1500,
+    };
+    const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
+
+    /* return (
+        <div className="App">
+            <button {...longPressEvent}>use  Loooong  Press</button>
+        </div>
+    ); */
+
+
     useEffect( () => {
         document.addEventListener("keydown", isMyKey)
         
-        document.addEventListener('touchend', onDoublePress)
+        document.addEventListener('touchstart', longPressEvent.onTouchStart)
+        document.addEventListener('touchend', longPressEvent.onTouchEnd)
         return () => {
             document.removeEventListener("keydown", isMyKey)
-            document.removeEventListener('touchend', () => onDoublePress)
+            document.removeEventListener('touchstart', longPressEvent.onTouchStart)
+            document.removeEventListener('touchend', longPressEvent.onTouchEnd)
         }
     }, [])
 
-    let lastPress = 0;
+    /* let lastPress = 0;
     
     const onDoublePress = (zEvent) => {
         const time = new Date().getTime();
@@ -35,13 +60,13 @@ export default function Dictionary(props) {
             isMyKey(zEvent)
         }
         lastPress = time;
-    };
+    }; */
 
     function isMyKey(zEvent) {
         const textSelectedArray = selection.toString().trim().split(' ')
         const isNotInAInput = window.getSelection().anchorNode.parentElement.localName === 'span'
         
-        if (selection && textSelectedArray.length === 1 && isNotInAInput && textSelectedArray[0] !== '' && (zEvent.type === 'touchend' || (zEvent.ctrlKey  &&  zEvent.altKey)) ) {
+        if (selection && textSelectedArray.length === 1 && isNotInAInput && textSelectedArray[0] !== '' && (zEvent.type === 'touchstart' || (zEvent.ctrlKey  &&  zEvent.altKey)) ) {
             props.scrollIntoView()
             getDictionaryData(selection.toString())  
         }
@@ -98,9 +123,9 @@ export default function Dictionary(props) {
     const definitionsEls = definitionsObjs !== null ? definitionsObjs.map( (obj, i) => {
         return <li key={i} className="definition">{obj.definition} <br/> {obj.synonyms.map( (item, i) => i <= 2 && <div key={i} className='synonsym'>{item}</div> )}</li>
     } ) : "no definition"
-
+    
     return (
-        <div 
+        <div {...longPressEvent}
             ref={height}
             className={`list-container ${!props.showDictionary && 'hidden'}`} 
             style={
