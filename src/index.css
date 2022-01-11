@@ -638,6 +638,20 @@ a {
     opacity: 0;
 }
 
+.sentenceToType {
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+span {
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
 @media (min-width: 900px) {
     .openBtn,
     .closeBtn {

@@ -155,7 +155,7 @@ function Typing() {
                     onClick={() => setHovered(false)}
                     onScroll={() => setShowDictionary(false)}
                 >  
-                    <p>{sampleState}</p>
+                    <p className="sentenceToType">{sampleState}</p>
                 </div>
                 <div className="sampleAreaBottom">
                     <textarea 
