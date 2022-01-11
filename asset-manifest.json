@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/fullbucket/static/css/main.614bf523.css",
-    "main.js": "/fullbucket/static/js/main.5f4754e9.js",
+    "main.css": "/fullbucket/static/css/main.2045a66f.css",
+    "main.js": "/fullbucket/static/js/main.4d303844.js",
     "static/media/definition.png": "/fullbucket/static/media/definition.9bc76013b57748a81a71.png",
     "static/media/stepone.png": "/fullbucket/static/media/stepone.02f0de22a1d503706488.png",
     "static/media/steptwo.png": "/fullbucket/static/media/steptwo.e831a2c0f0925b6224de.png",
     "static/media/spelling.png": "/fullbucket/static/media/spelling.338709cd777eb6e9480a.png",
     "index.html": "/fullbucket/index.html",
-    "main.614bf523.css.map": "/fullbucket/static/css/main.614bf523.css.map",
-    "main.5f4754e9.js.map": "/fullbucket/static/js/main.5f4754e9.js.map"
+    "main.2045a66f.css.map": "/fullbucket/static/css/main.2045a66f.css.map",
+    "main.4d303844.js.map": "/fullbucket/static/js/main.4d303844.js.map"
   },
   "entrypoints": [
-    "static/css/main.614bf523.css",
-    "static/js/main.5f4754e9.js"
+    "static/css/main.2045a66f.css",
+    "static/js/main.4d303844.js"
   ]
 }
