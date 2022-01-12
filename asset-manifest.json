@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/fullbucket/static/css/main.375bd449.css",
-    "main.js": "/fullbucket/static/js/main.3a6f153b.js",
+    "main.js": "/fullbucket/static/js/main.c8f2ea32.js",
     "static/media/definition.png": "/fullbucket/static/media/definition.9bc76013b57748a81a71.png",
     "static/media/stepone.png": "/fullbucket/static/media/stepone.02f0de22a1d503706488.png",
     "static/media/steptwo.png": "/fullbucket/static/media/steptwo.e831a2c0f0925b6224de.png",
     "static/media/spelling.png": "/fullbucket/static/media/spelling.338709cd777eb6e9480a.png",
     "index.html": "/fullbucket/index.html",
     "main.375bd449.css.map": "/fullbucket/static/css/main.375bd449.css.map",
-    "main.3a6f153b.js.map": "/fullbucket/static/js/main.3a6f153b.js.map"
+    "main.c8f2ea32.js.map": "/fullbucket/static/js/main.c8f2ea32.js.map"
   },
   "entrypoints": [
     "static/css/main.375bd449.css",
-    "static/js/main.3a6f153b.js"
+    "static/js/main.c8f2ea32.js"
   ]
 }
