@@ -1,70 +1,20 @@
-# Getting Started with Create React App
+(pt)
+Esse site é um ambiente de estudo da língua inglesa. Durante as últimas fases dos meus estudos de Inglês, eu necessitava de um lugar para praticar minha escrita. 
+Um editor de texto é ótimo para leitura, mas não é uma ferramenta tão eficiente para isso. O que eu procurava era uma ferramenta, não apenas para ler a página de um livro, mas também praticar a escrita das palavras lá presentes. Foi daí que surgiu a ideia de criar um site com um dicionário, reprodutor de palavras e ao mesmo tempo uma ferramenta para praticar a escrita e a leitura em inglês tudo em um só lugar. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+link do site: https://davidev01.github.io/fullbucket/ 
 
-## Available Scripts
+Feito em React.
 
-In the project directory, you can run:
+----------------------------------------------------------------------------------------------------------------------------------------
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+(en)
+This site is a study environment aimed at English learning. During the later stages of my English studies, I needed a place to practice my writing.
+A text editor is great for reading, but it's not a very efficient tool for what I wanted. What I was looking for was a tool not only to read the page of a book but also to practice writing the words in there. 
+That's where the idea of creating this website came from, a 
+an environment with a dictionary, text to speech technology, and at the same time a tool to practice writing and reading in English, all in one place.
+ 
+link to the site: https://davidev01.github.io/fullbucket/
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Built with React.
