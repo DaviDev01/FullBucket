@@ -7,7 +7,6 @@ export default function TextToSpeech(props) {
     const [option, setOption] = useState("Google US English");
     let [inputTxt, setInputTxt] = useState('')
     const [clicked, setClicked] = useState(false)
-    let audioControlsStyle = /* props.hovered && !clicked ? {marginRight: '55.5px'} : props.hovered && clicked ? {marginRight: '34.5px'} : */ null
     const [speaking, setSpeaking] = useState(false)
 
     function handleChange(e) {
@@ -53,11 +52,6 @@ export default function TextToSpeech(props) {
                     {`${item.name.replace(item.name.includes('Google') ? 'Google' : 'Microsoft','')}`}
                 </option>)
             })
-
-            /* optionsEls.splice(0, 0, <optgroup label="Google:" className='aptgroup'>)
-            optionsEls.splice(19, 0, </optgroup>)
-            optionsEls.splice(20, 0, <optgroup label="Microsoft:" className='aptgroup'>)
-            optionsEls.splice(voices.length, 0, </optgroup>) */
             setVoicesEl(optionsEls)
         }
         
@@ -96,7 +90,6 @@ export default function TextToSpeech(props) {
     return (
         <div 
             className={`controls  ${!clicked &&'maring-top'}` }
-            style={audioControlsStyle}
         >
             <select
                 onBlur={() => setClicked(false)}
@@ -107,10 +100,7 @@ export default function TextToSpeech(props) {
             >
                 {voicesEl}
             </select> 
-            <i className={`fas fa-cog TTS-settingsIcon`} onClick={() => setClicked(prev => !prev)}></i>
-            
-            {/* <i onClick={() => synth.cancel()} className="fas fa-volume-mute muteIcon"></i> */}
-            
+            <i className={`fas fa-cog TTS-settingsIcon`} onClick={() => setClicked(prev => !prev)}></i> 
             <button 
                 id="play" 
                 type="submit" 

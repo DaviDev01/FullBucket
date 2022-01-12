@@ -13,7 +13,6 @@ function Typing() {
     const TextDisplayRef = useRef(null)
     const typingContRef = useRef(null)
     const sentenceRef = useRef(null)
-    /* const definitionRef = useRef(null) */
     const mainRef = useRef(null)
     const [fontSize, setFontSize] = useState(1.2)
     const [showDictionary, setShowDictionary] = useState(false)
@@ -39,7 +38,6 @@ function Typing() {
     />
     </>
     const settings  = <div className="settings">
-        {/* <i ref={definitionRef} className="fas fa-search searchIcon"></i> */}
         <i 
             className={`${showEditor ? 'fas fa-check' : 'fas fa-pen'} editIcon`} 
             onClick={toggleEditor} 
@@ -181,7 +179,6 @@ function Typing() {
                 value={userInputWriting}
             />
             <Dictionary 
-                /* definitionRef={definitionRef} */
                 sentenceRef={sentenceRef}
                 currentParent={mainRef.current}
                 scrollIntoView={scrollIntoView}

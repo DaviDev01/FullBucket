@@ -4,7 +4,7 @@ const Context = React.createContext()
 function ContextProvider(props) {
     const [languagesArray] = useState([{
         about: "About",
-        whiteboardInstructions: "Try to type what is written here. Select text with your mouse and click the speaker icon to hear it or press ctrl + alt to see the word's definition.",
+        whiteboardInstructions: "Try to type what is written here. Select some text and click the speaker icon to hear it or press ctrl + alt to see the word's definition (if you are on mobile, just press the word for about two seconds). More info on the about page.",
         title1: "What Is FullBucket?",
         part1: "When you are learning a new language, there are a lot of tools that can help you, like a dictionary to look up words, a text to speech technology to help you improve your ability to understand and pronounce certain words, and a place where you can practice both your reading and writing skills.",
         part2: "The problem is that those tools are scattered all around the internet. That's why I created FullBucket, to give you all the tools you need and let you focus on learning.",
@@ -19,7 +19,7 @@ function ContextProvider(props) {
         part8: "like this",
         part9: ") and clicking on the speaker icon ",
         part10: ", You'll be able to hear the word or sentence being read out loud. You can also change the text to speech voice and language by clicking on the cog icon ",
-        part11: " and choosing an option from the drop-down menu. Voice options could be limited depending on the browser being used. You can learn more about the API used in this project ",
+        part11: " and choosing an option from the drop-down menu. Voice options could be limited depending on the browser being used and you may need to change the TTS voice on your device's settings. You can learn more about the API used in this project ",
         part12: "here",
         title5: "See word definition",
         part13: "If you select (like shown above) a single word you can also see its definition by pressing Ctrl + Alt keys or by pressing it with your finger (if you are on a mobile device). When you do so, a card will appear with the word meaning and synonyms if available.",
@@ -30,7 +30,7 @@ function ContextProvider(props) {
         part17: "You can still use the see word definition command on the Spelling Practice page."
     }, {
         about: "Sobre",
-        whiteboardInstructions: "Tente digitar o que está escrito aqui. Selecione o texto com o mouse e clique no ícone do alto-falante para ouvi-lo ou pressione ctrl + alt para ver a definição da palavra.",
+        whiteboardInstructions: "Tente digitar o que está escrito aqui. Selecione qualquer palavra e clique no ícone do alto-falante para ouvi-la ou pressione ctrl + alt para ver sua definição (em dispositivos móveis, basta pressionar a palavra por aproximadamente dois segundos). Mais detalhes na página 'sobre'.",
         title1: "O que é FullBucket?",
         part1: "Quando você está aprendendo um novo idioma, existem várias ferramentas que podem ajudá-lo, como um dicionário para procurar palavras, uma tecnologia de conversão de texto para fala para ajudá-lo a melhorar sua capacidade de entender e pronunciar certas palavras e um lugar onde você possa praticar suas habilidades de leitura e escrita.",
         part2: "O problema é que essas ferramentas estão espalhadas por varios cantos da internet. É por isso que criei o FullBucket, para dar a você todas as ferramentas que você precisa e permitir que você se concentre no aprendizado.",
@@ -45,7 +45,7 @@ function ContextProvider(props) {
         part8: "dessa forma",
         part9: ") e clicando no ícone do alto-falante ",
         part10: ", você poderá ouvir a palavra ou frase sendo lida em voz alta. Você também pode alterar a voz falada e o idioma clicando no ícone de engrenagem ",
-        part11: " e escolhendo uma opção do menu. As opções de voz podem ser limitadas dependendo do navegador usado. Para mais informações sobre o API usado neste projeto clique ",
+        part11: " e escolhendo uma opção do menu. As opções de voz podem ser limitadas dependendo do navegador usado. Talvez seja preciso configurar as opções de voz no seu dispositivo. Para mais informações sobre o API usado neste projeto clique ",
         part12: "aqui",
         title5: "Veja a definição de palavras",
         part13: "Se você selecionar (como mostrado acima) uma única palavra, você também pode ver sua definição pressionando as teclas Ctrl + Alt ou a pressionando com o dedo (em dispositivos móveis). Ao fazer isso, o significado da palavra e sinônimos, se disponíveis, aparecerão.",

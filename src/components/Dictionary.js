@@ -8,7 +8,6 @@ export default function Dictionary(props) {
     const componentWidth = window.innerWidth > 750 ? 30 : 50
     const height = useRef(null)
     const selection = window.getSelection()
-    /* const [cardTooBig, setCardTooBig] = useState(false) */
 
     useEffect( () => {
         (dictionaryData !== null && height.current.clientHeight > 0) &&
@@ -25,41 +24,22 @@ export default function Dictionary(props) {
 
     const defaultOptions = {
         shouldPreventDefault: true,
-        delay: 1500,
+        delay: 2000,
     };
-    const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
-
-    /* return (
-        <div className="App">
-            <button {...longPressEvent}>use  Loooong  Press</button>
-        </div>
-    ); */
+    const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions)
 
 
     useEffect( () => {
         document.addEventListener("keydown", isMyKey)
-        
         props.sentenceRef.current.addEventListener('touchstart', longPressEvent.onTouchStart)
         props.sentenceRef.current.addEventListener('touchend', longPressEvent.onTouchEnd)
         return () => {
             document.removeEventListener("keydown", isMyKey)
             props.sentenceRef.current.removeEventListener('touchstart', longPressEvent.onTouchStart)
             props.sentenceRef.current.removeEventListener('touchend', longPressEvent.onTouchEnd)
+            
         }
-    }, [])
-
-    /* let lastPress = 0;
-    
-    const onDoublePress = (zEvent) => {
-        const time = new Date().getTime();
-        const delta = time - lastPress;
-
-        const DOUBLE_PRESS_DELAY = 400;
-        if (delta < DOUBLE_PRESS_DELAY) {
-            isMyKey(zEvent)
-        }
-        lastPress = time;
-    }; */
+    })
 
     function isMyKey(zEvent) {
         const textSelectedArray = selection.toString().trim().split(' ')
