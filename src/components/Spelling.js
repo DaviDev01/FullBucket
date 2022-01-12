@@ -96,7 +96,9 @@ export default function Spelling() {
     function speak(sentence){
         if (sentence !== '') {
             let utterThis = new SpeechSynthesisUtterance(sentence);
-            utterThis.voice = synth.getVoices()[6]
+            const voice = synth.getVoices().find( (obj) => obj.name === "Microsoft Aria Online (Natural) - English (United States)") 
+            utterThis.voice = voice ? voice : synth.getVoices().find( (obj) => obj.default === true || obj.lang === "en-US")
+            
             synth.speak(utterThis);
         }
     }
