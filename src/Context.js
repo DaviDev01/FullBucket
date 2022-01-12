@@ -22,11 +22,11 @@ function ContextProvider(props) {
         part11: " and choosing an option from the drop-down menu. Voice options could be limited depending on the browser being used. You can learn more about the API used in this project ",
         part12: "here",
         title5: "See word definition",
-        part13: "If you select (like shown above) a single word you can also see its definition by pressing Ctrl + Alt keys. When you do so, a card will appear with the word meaning and synonyms if available.",
+        part13: "If you select (like shown above) a single word you can also see its definition by pressing Ctrl + Alt keys or by pressing it with your finger (if you are on a mobile device). When you do so, a card will appear with the word meaning and synonyms if available.",
         part14: "The API that provides the word's definition and synonyms is ",
         part15: "The Free Dictionary API",
         title6: "Spelling Practice",
-        part16: "Spelling Practice helps you with your listening and writing abilities in English. There are around 1000 sentences available containing the most used words in the English language. The way it works is simple, after reading the instructions on the Spelling Practice page press enter. You will hear the sentence being read out loud by your default TTS voice. After that just type the word that is missing in the sentence in front of you. You can hear the sentence again by pressing the speaker Icon ",
+        part16: "Spelling Practice helps you with your listening and writing abilities in English. There are around 500 sentences available containing the most used words in the English language. The way it works is simple, after reading the instructions on the Spelling Practice page press enter. You will hear the sentence being read out loud by your default TTS voice. After that just type the word that is missing in the sentence in front of you. You can hear the sentence again by pressing the speaker Icon ",
         part17: "You can still use the see word definition command on the Spelling Practice page."
     }, {
         about: "Sobre",
@@ -38,7 +38,7 @@ function ContextProvider(props) {
         part3: "Aqui estão alguns recursos do site e como usá-los:",
         title3: "Digite o que quiser",
         part4: "Se você tiver algum texto que gostaria não apenas de ler, mas também de escrever, a página 'whiteboard' permitirá que você faça isso. Basta clicar no ícone da caneta ",
-        part5: "e colar o texto na área de entrada. Depois disso, simplismente clique no ícone de confirmação ",
+        part5: " e colar o texto na área de entrada. Depois disso, simplismente clique no ícone de confirmação ",
         part6: " e começe a digitar ...",
         title4: "Ouvir a pronúncia",
         part7: "Selecionando qualquer texto (",
@@ -48,11 +48,11 @@ function ContextProvider(props) {
         part11: " e escolhendo uma opção do menu. As opções de voz podem ser limitadas dependendo do navegador usado. Para mais informações sobre o API usado neste projeto clique ",
         part12: "aqui",
         title5: "Veja a definição de palavras",
-        part13: "Se você selecionar (como mostrado acima) uma única palavra, você também pode ver sua definição pressionando as teclas Ctrl + Alt. Ao fazer isso, o significado da palavra e sinônimos, se disponíveis, aparecerão.",
-        part14: "O API que fornece a definição e os sinônimos das palavras é o ",
+        part13: "Se você selecionar (como mostrado acima) uma única palavra, você também pode ver sua definição pressionando as teclas Ctrl + Alt ou a pressionando com o dedo (em dispositivos móveis). Ao fazer isso, o significado da palavra e sinônimos, se disponíveis, aparecerão.",
+        part14: "O API que fornece as definições e os sinônimos das palavras é o ",
         part15: "Free Dictionary API",
         title6: "Prática de Ortografia",
-        part16: "A prática ortográfica te ajuda com suas habilidades de escuta e escrita em inglês. São cerca de 1000 frases disponíveis contendo as palavras mais utilizadas na língua inglesa. O funcionamento é simples, após ler as instruções na página 'Spelling Practice', pressione Enter. Você ouvirá a frase sendo lida em voz alta pela voz padrão do seu dispositivo. Depois disso, basta digitar a palavra que está faltando na frase em sua frente. É possível ouvir a frase novamente pressionando o ícone do alto-falante",
+        part16: "A prática ortográfica te ajuda com suas habilidades de escuta e escrita em inglês. São cerca de 500 frases disponíveis contendo as palavras mais utilizadas na língua inglesa. O funcionamento é simples, após ler as instruções na página 'Spelling Practice', pressione Enter. Você ouvirá a frase sendo lida em voz alta pela voz padrão do seu dispositivo. Depois disso, basta digitar a palavra que está faltando na frase em sua frente. É possível ouvir a frase novamente pressionando o ícone do alto-falante ",
         part17: "Você ainda pode usar o comando Ctrl + Alt para ver definição de palavras na página Prática de Ortografia."
     }])
     const [chosenLang, setChosenLang] = useState(JSON.parse(localStorage.getItem('lang')) || 0)

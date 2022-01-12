@@ -96,6 +96,7 @@ export default function Spelling() {
     function speak(sentence){
         if (sentence !== '') {
             let utterThis = new SpeechSynthesisUtterance(sentence);
+            utterThis.voice = synth.getVoices()[6]
             synth.speak(utterThis);
         }
     }
@@ -133,9 +134,9 @@ export default function Spelling() {
                 <div className="spellingControls">
                     <i onClick={(e) => focusOnInput(e)} className="fas fa-keyboard spellingKeyboard"></i>
 
-                    <button type="submit" className="spellingBtn"><i className={`fas fa-check editIcon`}></i></button>
-
                     <i  onClick={() => speak(wordIndex > 0 ? wordsArray[wordIndex - 1].sentence : `${sentenceStart} blank ${sentenceEnd}`)} className={`TTS-speakerIcon fas fa-volume-up ${sample === 'blank' && "displayNone"}`}></i>
+
+                    <button type="submit" className="spellingBtn"><i className={`fas fa-check editIcon`}></i></button>
                 </div>
             </form>
             <Dictionary
