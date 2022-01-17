@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useRef } from "react"
-import words from "../words"
+import React, { useState, useEffect, useRef, useContext} from "react"
+/* import words from "../words" */
+import { Context } from "../Context"
 import Dictionary from "./Dictionary"
 
 export default function Spelling() {
+
+    const {chosenSentences, isCustom} = useContext(Context)
     const fontSize = 1.5
     let synth = window.speechSynthesis
-    const [wordIndex, setWordIndex] = useState(JSON.parse(localStorage.getItem('wordIndex')) || 0)
-    const wordsArray = words
+    const wordsArray = chosenSentences
+    const [wordIndex, setWordIndex] = useState(!isCustom ? JSON.parse(localStorage.getItem('wordIndex')) || 0 : JSON.parse(localStorage.getItem('CustomSentenceIndex')) || 0)
     const inputRef = useRef(null)
     const SpellingMainRef = useRef(null)
     const [sample, setSample] = useState('blank')
@@ -18,8 +21,7 @@ export default function Spelling() {
     const [sentenceEnd, setSentenceEnd] = useState('and press enter to continue')
     const sentenceRef = useRef(null)
     const [showDictionary, setShowDictionary] = useState(false)
-
-
+    console.log(wordIndex)
     useEffect( () => {
         inputRef.current.focus()
         document.addEventListener("keydown", focusOnInput)
@@ -27,8 +29,12 @@ export default function Spelling() {
     }, [] )
 
     useEffect( () => {
-        localStorage.setItem('wordIndex', JSON.stringify(wordIndex -1))
-    }, [wordIndex] )
+        if (!isCustom) {
+            localStorage.setItem('wordIndex', JSON.stringify(wordIndex > 0 ? wordIndex -1 : 0))
+        } else {
+            localStorage.setItem('CustomSentenceIndex', JSON.stringify(wordIndex > 0 ? wordIndex -1 : 0))
+        }
+    }, [wordIndex, isCustom] )
 
     function focusOnInput(zEvent) {
         if (!(inputRef.current === document.activeElement)  && !zEvent.ctrlKey &&  !zEvent.altKey) {
@@ -56,7 +62,7 @@ export default function Spelling() {
         const {value} = e.target
         setUserInputWriting(value)
     }
-
+    
     function getSentence(wordObj) {
 
         const splitedSentence = wordObj.sentence.match(/\w+(?:'\w+)*|\s+|[^\s\w]+/g)
@@ -88,9 +94,17 @@ export default function Spelling() {
 
     function submit(e) {
         e.preventDefault()
-        getSentence(wordsArray[wordIndex])
-        speak(wordsArray[wordIndex].sentence)
-        setUserInputWriting('')
+        synth.cancel()
+        if (wordsArray.length > wordIndex) {
+            getSentence(wordsArray[wordIndex])
+            speak(wordsArray[wordIndex].sentence)
+            setUserInputWriting('')
+        } else {
+            setWordIndex(0) 
+            getSentence(wordsArray[0])
+            speak(wordsArray[0].sentence)
+            setUserInputWriting('')
+        }
     }
 
     function speak(sentence){

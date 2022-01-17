@@ -4,7 +4,7 @@ import { Context } from "../Context"
 import Settings from "./Settings"
 
 function Typing() {
-    const {lang} = useContext(Context)
+    const {lang, makingFlashCard} = useContext(Context)
     const [sample, setSample] =  useState(lang.whiteboardInstructions)
     const [userInputWriting, setUserInputWriting] = useState("")
     const [showEditor, setShowEditor] = useState(false)
@@ -101,7 +101,7 @@ function Typing() {
     function scrollIntoView() {
         mainRef.current.scrollIntoView()
     }
-    
+
     return (
         <main className="typing" onClick={toggleDictionary} ref={mainRef}>
             <div    

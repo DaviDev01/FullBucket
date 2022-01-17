@@ -1,7 +1,10 @@
-import React from "react" 
+import React, {useContext} from "react" 
 import TextToSpeech from './TextToSpeech'
+import { Context } from "../Context"
 
 function Settings(props) {
+    const {makingFlashCard} = useContext(Context)
+
     function toggleEditor() {
         props.setShowEditor(prev => !prev)
         
@@ -25,6 +28,9 @@ function Settings(props) {
                 className={`${props.showEditor ? 'fas fa-check' : 'fas fa-pen'} editIcon`} 
                 onClick={toggleEditor} 
             ></i>
+            <button className="exportIcon-btn" onClick={() => makingFlashCard(window.getSelection().toString())}>
+                <i className="fas fa-file-export exportIcon"></i>
+            </button>
             <i onClick={() => props.setFocus()} className="fas fa-keyboard keyboardIcon"></i>
             <TextToSpeech hovered={props.hovered}/>
             <i 

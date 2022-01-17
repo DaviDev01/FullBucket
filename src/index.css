@@ -179,7 +179,8 @@ input[type='range'] {
 .muteIcon,
 .keyboardIcon,
 .spellingKeyboard,
-.searchIcon {
+.searchIcon,
+.exportIcon {
     cursor: pointer;
     font-size: 1.4rem;
     color: rgb(29, 27, 27);
@@ -203,7 +204,8 @@ input[type='range'] {
 .TTS-select:hover,
 .muteIcon:hover,
 .spellingKeyboard:hover,
-.searchIcon:hover {
+.searchIcon:hover,
+.exportIcon:hover {
     opacity: 1;
 }
 
@@ -652,6 +654,12 @@ span {
     user-select: text;
 }
 
+.exportIcon-btn {
+    padding: 0;
+    background: none;
+    border: none;
+}
+
 @media (min-width: 900px) {
     .openBtn,
     .closeBtn {
@@ -748,7 +756,7 @@ span {
         display: flex;
         align-items: flex-end;
         justify-content: space-between;
-        width: 180px;
+        width: 280px;
         height: 68px;
         align-self: flex-end;
         position: relative;
@@ -775,7 +783,7 @@ span {
 
 @media (pointer: coarse) and (min-width: 800px) {
     .settings {
-        width: 280px;
+        width: 380px;
     }
 }
 
