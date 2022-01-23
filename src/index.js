@@ -6,9 +6,9 @@ import {ContextProvider} from "./Context"
 import {HashRouter as Router} from "react-router-dom"
 
 ReactDOM.render(
-    <ContextProvider>
         <Router>    
+    <ContextProvider>
             <App />
-        </Router>
     </ContextProvider>
+        </Router>
 , document.getElementById("root"))

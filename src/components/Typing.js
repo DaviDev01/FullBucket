@@ -1,51 +1,68 @@
 import React, {useState, useEffect, useRef, useContext} from "react"
-import TextToSpeech from "./TextToSpeech"
 import Dictionary from "./Dictionary"
 import { Context } from "../Context"
+import Settings from "./Settings"
+import CustomSPPanel from "./CustomSPPanel"
 
 function Typing() {
     const {lang} = useContext(Context)
     const [sample, setSample] =  useState(lang.whiteboardInstructions)
     const [userInputWriting, setUserInputWriting] = useState("")
     const [showEditor, setShowEditor] = useState(false)
+    const [fontSize, setFontSize] = useState(1.2)
+    const [showDictionary, setShowDictionary] = useState(false)
+    const TAfontSize = {fontSize: `${fontSize}rem`} 
+    const [sampleState, setSampleState] = useState(settingTextDisplay(sample))
+    const [hovered, setHovered] = useState(false)
     const inputFocus = useRef(null)
     const texareaFocus = useRef(null)
     const TextDisplayRef = useRef(null)
     const typingContRef = useRef(null)
     const sentenceRef = useRef(null)
     const mainRef = useRef(null)
-    const [fontSize, setFontSize] = useState(1.2)
-    const [showDictionary, setShowDictionary] = useState(false)
-    const TAfontSize = {fontSize: `${fontSize}rem`} 
-    const [sampleState, setSampleState] = useState(sample.split('').map((item, i) => {
-        return <span key={i}>{item}</span>
-    }))
-    const [hovered, setHovered] = useState(false)
-    const adjustFontEl =  
-    <>
-    <i 
-        className={`fas fa-text-height ${hovered && 'hidden'}`}
-        onClick={() => setHovered(true)}
-    ></i>  
-    <input 
-        className={`rangeFont  ${!hovered && 'hidden'}`} 
-        type="range" 
-        min="0.5" 
-        max="10" 
-        value={fontSize} 
-        step={.1} 
-        onChange={handleFontChange}
-    />
-    </>
-    const settings  = <div className="settings">
-        <i 
-            className={`${showEditor ? 'fas fa-check' : 'fas fa-pen'} editIcon`} 
-            onClick={toggleEditor} 
-        ></i>
-        <i onClick={() => setFocus()} className="fas fa-keyboard keyboardIcon"></i>
-        <TextToSpeech hovered={hovered}/>
-        {adjustFontEl}    
-    </div>
+
+
+    useEffect( () => {
+        setSampleState(prev => checkSpell(prev))
+    } , [userInputWriting])
+    
+    function checkSpell(prev) {
+        const checkedText = prev.map( (textLetter, i) => {
+            const userLetter = userInputWriting[i]
+            if (userLetter == null) {
+                return <span key={i}>{textLetter.props.children}</span>
+            } else if (userLetter === textLetter.props.children) {
+                return <span className="greenText" key={i}>{textLetter.props.children}</span>
+            } else if (userLetter !== textLetter.props.children) {
+                return <span className="red" key={i}>{textLetter.props.children}</span>
+            }   
+        })
+
+        return checkedText
+    }
+
+    useEffect( () => {
+        setSampleState(settingTextDisplay(sample))
+    }, [sample] )
+
+    useEffect( () => {
+        setSample(lang.whiteboardInstructions)
+        setUserInputWriting('')
+    }, [lang] )
+
+    useEffect( () => {
+        setFocus()
+        document.addEventListener("keydown", focusOnKeyDown)
+        return () => document.removeEventListener("keydown", focusOnKeyDown)
+    }, [] )
+
+    function settingTextDisplay(sentence) {
+        const Arraysentence = sentence.split('')
+
+        return Arraysentence.map((item, i) => {
+            return <span key={i}>{item}</span>
+        })
+    }
 
     function handleChange(e) {
         const {value} = e.target
@@ -56,32 +73,11 @@ function Typing() {
         const {value} = e.target
         setFontSize(value)
     }
-    
-    useEffect( () => {
-        setSampleState(sample.split('').map((item, i) => {
-            return <span key={i} >{item}</span>
-        }))
-    }, [sample] )
 
-    useEffect( () => {
-        setSampleState(lang.whiteboardInstructions.split('').map((item, i) => {
-            return <span key={i}>{item}</span>
-        }))
-        setUserInputWriting('')
-        setSample(lang.whiteboardInstructions)
-    }, [lang] )
-
-    useEffect( () => {
-        setFocus()
-        document.addEventListener("keydown", focusOnKeyDown)
-        return () => document.removeEventListener("keydown", focusOnKeyDown)
-    }, [] )
 
     function focusOnKeyDown(zEvent) {
         if (!zEvent.ctrlKey &&  !zEvent.altKey && !TextDisplayRef.current.className.includes('stayUnfocused')) {
             setFocus()
-        } else if (!zEvent.ctrlKey &&  !zEvent.altKey) {
-            setSIFocus()
         }
     }
 
@@ -89,9 +85,7 @@ function Typing() {
         setUserInputWriting('')
         const {value} = e.target
         setSample(value.replace(/(\r\n|\n|\r)/gm, " "))
-        setSampleState(value.split('').map((item, i) => {
-            return <span key={i}>{item}</span>
-        }))
+        setSampleState(settingTextDisplay(value))
     }
 
     function setFocus() {
@@ -101,38 +95,6 @@ function Typing() {
         }
     }
 
-    function toggleEditor() {
-        setShowEditor(prev => !prev)
-        
-        if (showEditor) {
-            setFocus() 
-        } else if (!showEditor) {
-            setTimeout(() => {
-                setSIFocus()
-                texareaFocus.current.selectionStart = texareaFocus.current.value.length
-            }, 10); 
-        }
-    }
-
-    function setSIFocus() {
-        texareaFocus.current.focus()
-    }
-
-    useEffect( () => {
-        setSampleState(prev => {
-            return prev.map((item, i) => {
-                const userItem = userInputWriting[i]
-                if (userItem == null) {
-                    return <span key={i}>{item.props.children}</span>
-                } else if (userItem === item.props.children) {
-                    return <span className="greenText" key={i}>{item.props.children}</span>
-                } else if (userItem !== item.props.children) {
-                    return <span className="red" key={i}>{item.props.children}</span>
-                }
-            })
-        })
-    } , [userInputWriting])
-
     function toggleDictionary() {
         setShowDictionary(false)
     }
@@ -140,7 +102,7 @@ function Typing() {
     function scrollIntoView() {
         mainRef.current.scrollIntoView()
     }
-    
+
     return (
         <main className="typing" onClick={toggleDictionary} ref={mainRef}>
             <div    
@@ -166,7 +128,16 @@ function Typing() {
                         onClick={() => setHovered(false)}
                         value={sample}
                     />
-                    {settings}
+                    <Settings 
+                        hovered={hovered} 
+                        showEditor={showEditor}
+                        setShowEditor={setShowEditor} 
+                        setFocus={setFocus}
+                        texareaFocus={texareaFocus}
+                        setHovered={setHovered}
+                        handleFontChange={handleFontChange}
+                        fontSize={fontSize}
+                    />
                 </div>
             </div>
             
@@ -186,6 +157,7 @@ function Typing() {
                 showDictionary={showDictionary}
                 setShowDictionary={setShowDictionary}
             />
+            <CustomSPPanel />
         </main>
     )
 }
