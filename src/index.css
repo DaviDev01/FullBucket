@@ -135,10 +135,6 @@ textarea::-webkit-scrollbar-thumb:hover {
     display: block;
 }
 
-.displayNone {
-    display: none;
-}
-
 input[type='range'] {
     -webkit-appearance: none;
     transform: rotate(-90deg);
@@ -357,7 +353,7 @@ span {
     justify-content: center;
     align-items: center;
     background-color: #fff;
-    padding: 2em 0;
+    padding: 1.3em 0;
     box-shadow: 2px 2px 1px .5px rgba(94, 94, 94, 0.171);
 }
 
@@ -578,7 +574,7 @@ a {
 }
 
 .About--article_img {
-    max-width: 100%;
+    max-width: 720px;
     display: block;
     margin: 1em auto;
 }
@@ -658,6 +654,66 @@ span {
     padding: 0;
     background: none;
     border: none;
+}
+
+.CustomSPOptionPanel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: rgba(34, 34, 34, 0.356);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.CustomSPOptionPanel--card {
+    height: 60%;
+    width: 50%;
+    background-color: #fff;
+    border-radius: 1em;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card--btn {
+    background: none;
+    border: none;
+    margin: 1em 1em 0 0 ;
+    align-self: flex-end;
+}
+
+.card--btn > * {
+    color: rgba(41, 41, 41, 0.205);
+    font-size: 1rem;
+}
+
+.card--sentence {
+}
+
+.card--confirmBtn,
+.card--cancelBtn {
+    border: none;
+    padding: .6em 2em;
+    border-radius: .4em;
+    font-weight: 700;
+    font-size: .8rem;
+    text-transform: lowercase;
+    color: rgb(43, 43, 43);
+    background-color: rgba(99, 98, 98, 0.171);
+    cursor: pointer;
+}
+
+.card--confirmBtn {
+    
+}
+
+.card--cancelBtn {
+    margin-right: 45px;
 }
 
 @media (min-width: 900px) {
@@ -787,3 +843,6 @@ span {
     }
 }
 
+.displayNone {
+    display: none;
+}

@@ -1,9 +1,9 @@
-import React, {useContext} from "react" 
+import React, {useContext, useState} from "react" 
 import TextToSpeech from './TextToSpeech'
 import { Context } from "../Context"
 
 function Settings(props) {
-    const {makingFlashCard} = useContext(Context)
+    const {callSPPanel} = useContext(Context)
 
     function toggleEditor() {
         props.setShowEditor(prev => !prev)
@@ -23,12 +23,12 @@ function Settings(props) {
     }
 
     return (
-        <div className="settings">
+        <section className="settings">
             <i 
                 className={`${props.showEditor ? 'fas fa-check' : 'fas fa-pen'} editIcon`} 
                 onClick={toggleEditor} 
             ></i>
-            <button className="exportIcon-btn" onClick={() => makingFlashCard(window.getSelection().toString())}>
+            <button className="exportIcon-btn" onClick={() => callSPPanel(window.getSelection().toString())} /* onClick={() => makingFlashCard(window.getSelection().toString())} */>
                 <i className="fas fa-file-export exportIcon"></i>
             </button>
             <i onClick={() => props.setFocus()} className="fas fa-keyboard keyboardIcon"></i>
@@ -46,7 +46,7 @@ function Settings(props) {
                 step={.1} 
                 onChange={props.handleFontChange}
             />    
-        </div>
+        </section>
     )
 }
 

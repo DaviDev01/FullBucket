@@ -2,9 +2,10 @@ import React, {useState, useEffect, useRef, useContext} from "react"
 import Dictionary from "./Dictionary"
 import { Context } from "../Context"
 import Settings from "./Settings"
+import CustomSPPanel from "./CustomSPPanel"
 
 function Typing() {
-    const {lang, makingFlashCard} = useContext(Context)
+    const {lang} = useContext(Context)
     const [sample, setSample] =  useState(lang.whiteboardInstructions)
     const [userInputWriting, setUserInputWriting] = useState("")
     const [showEditor, setShowEditor] = useState(false)
@@ -156,6 +157,7 @@ function Typing() {
                 showDictionary={showDictionary}
                 setShowDictionary={setShowDictionary}
             />
+            <CustomSPPanel />
         </main>
     )
 }

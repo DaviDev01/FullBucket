@@ -1,3 +1,4 @@
+import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 import React, {useState, useEffect, useCallback} from "react"
 import {useNavigate} from 'react-router-dom';
 
@@ -59,11 +60,6 @@ function ContextProvider(props) {
     }])
     const [chosenLang, setChosenLang] = useState(JSON.parse(localStorage.getItem('lang')) || 0)
     const navigate = useNavigate()
-    
-    useEffect( () => {
-        localStorage.setItem('lang', JSON.stringify(chosenLang))
-    }, [chosenLang])
-
     const [defaultSentences] = useState([
         { word: "building", sentence: "This building is so tall!"},
         { word: "action", sentence: "You next action is going to be critical."},
@@ -567,15 +563,21 @@ function ContextProvider(props) {
         { word: "international", sentence: "Their brand has gone international!"}
     ])
     const [customSentence, setCustomSentence] = useState([])
-    
-    const [currentSentences, setSentences] = useState({
+    const [currentSentences, setCurrentSentences] = useState({
         sentencesArrays: { default : defaultSentences, custom: JSON.parse(localStorage.getItem('customSentenceObj')) || customSentence},
         isCustom: false
     })
+    const [showSPOptions, setShowSPOptions] = useState(false)
+    const [selection, setSelection] = useState('')
+
+    useEffect( () => {
+        localStorage.setItem('lang', JSON.stringify(chosenLang))
+    }, [chosenLang])
 
     useEffect( () => {
         currentSentences.isCustom && localStorage.setItem('customSentenceObj', JSON.stringify(currentSentences))
     }, [currentSentences])
+    console.log(customSentence)
 
     function makingFlashCard(text) {
         if (text !== ' ' && text) {
@@ -583,11 +585,31 @@ function ContextProvider(props) {
             const flashCards = splitedText.map( (word) => {
                 return { word: word , sentence: text}
             })
-            setCustomSentence(splitedText)
-            setSentences(prev => ({sentencesArrays: {...prev.sentencesArrays, custom: flashCards}, isCustom: true}))
-            handleOnClick()
+            /* setCustomSentence(prev => [...prev, {sentencesArrays: flashCards, isCustom: true}]) */
+            setCustomSentence(flashCards)
+            /* setCurrentSentences(prev => ({sentencesArrays: {...prev.sentencesArrays, custom: flashCards}, isCustom: true})) */
+           /*  handleOnClick() */
         }
     }
+
+    function callSPPanel(text) {
+        setShowSPOptions(prev => !prev)
+        /* makingFlashCard(text) */
+        setSelection(text)
+    }
+
+    function submitCustomSP(words) {
+        const flashCards = words.map( (word) => {
+            return { word: word, sentence: selection}
+        } )
+        setCurrentSentences(prev => ({sentencesArrays: {...prev.sentencesArrays, custom: flashCards}, isCustom: true}))
+        handleOnClick()
+    }
+
+    /* function populateSPPanel(text) {
+        
+    } */
+    
     const handleOnClick = useCallback(() => navigate('/spelling', {replace: true}), [navigate])
     const isCustom = currentSentences.isCustom
     const chosenSentences = isCustom ? currentSentences.sentencesArrays.custom : currentSentences.sentencesArrays.default
@@ -599,7 +621,13 @@ function ContextProvider(props) {
             languagesArray, 
             chosenSentences, 
             isCustom, 
-            makingFlashCard
+            customSentence,
+            makingFlashCard,
+            callSPPanel,
+            showSPOptions,
+            setShowSPOptions,
+            selection,
+            submitCustomSP
         }}>
             {props.children}
         </Context.Provider>
