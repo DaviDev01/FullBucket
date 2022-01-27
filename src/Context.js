@@ -1,9 +1,9 @@
-import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 import React, {useState, useEffect, useCallback} from "react"
 import {useNavigate} from 'react-router-dom';
 
 
 const Context = React.createContext()
+
 function ContextProvider(props) {
     const [languagesArray] = useState([{
         about: "About",
@@ -562,22 +562,19 @@ function ContextProvider(props) {
         { word: "claim", sentence: "I claim to be a fast reader, but actually I am average."},
         { word: "international", sentence: "Their brand has gone international!"}
     ])
-    const [customSentence, setCustomSentence] = useState([])
-    const [currentSentences, setCurrentSentences] = useState({
-        sentencesArrays: { default : defaultSentences, custom: JSON.parse(localStorage.getItem('customSentenceObj')) || customSentence},
-        isCustom: false
-    })
+    const [customSentences, setCustomSentences] = useState(JSON.parse(localStorage.getItem('customSentencesArray')) || [])
+    const [isCustom, setIsCustom] = useState(false)
     const [showSPOptions, setShowSPOptions] = useState(false)
     const [selection, setSelection] = useState('')
+    const [currentCustomSentence, setCurrentCustomSentence] = useState(0)
 
     useEffect( () => {
         localStorage.setItem('lang', JSON.stringify(chosenLang))
     }, [chosenLang])
 
     useEffect( () => {
-        currentSentences.isCustom && localStorage.setItem('customSentenceObj', JSON.stringify(currentSentences))
-    }, [currentSentences])
-    console.log(customSentence)
+        localStorage.setItem('customSentencesArray', JSON.stringify(customSentences))
+    }, [customSentences])
 
     function makingFlashCard(text) {
         if (text !== ' ' && text) {
@@ -585,34 +582,61 @@ function ContextProvider(props) {
             const flashCards = splitedText.map( (word) => {
                 return { word: word , sentence: text}
             })
-            /* setCustomSentence(prev => [...prev, {sentencesArrays: flashCards, isCustom: true}]) */
-            setCustomSentence(flashCards)
+            /* setCustomSentences(prev => [...prev, {sentencesArrays: flashCards, isCustom: true}]) */
+            setCustomSentences(flashCards)
             /* setCurrentSentences(prev => ({sentencesArrays: {...prev.sentencesArrays, custom: flashCards}, isCustom: true})) */
            /*  handleOnClick() */
         }
     }
 
     function callSPPanel(text) {
-        setShowSPOptions(prev => !prev)
-        /* makingFlashCard(text) */
-        setSelection(text)
+        console.log("text", typeof text)
+        if (text !== ' ' || text !== '' ) {
+            setShowSPOptions(prev => !prev)
+            setSelection(text)
+        }
     }
 
     function submitCustomSP(words) {
         const flashCards = words.map( (word) => {
             return { word: word, sentence: selection}
         } )
-        setCurrentSentences(prev => ({sentencesArrays: {...prev.sentencesArrays, custom: flashCards}, isCustom: true}))
+
+        setCustomSentences(prev => {
+            return [...prev, {array: flashCards, indexNum: customSentences.length + 1}]
+        })
+        setIsCustom(true)
+        /* setCurrentSentences(prev => ({sentencesArrays: {...prev.sentencesArrays, custom: flashCards}, isCustom: true})) */
         handleOnClick()
+    }
+    
+    function switchDecks(i, callbackFunc) {
+        setCurrentCustomSentence(i)
+        setIsCustom(true)
+        return customSentences[i]
+    }
+
+    function deleteDeck(e, index) {
+        e.stopPropagation()
+        setCustomSentences(prev => {
+           return prev.filter( (obj, i) => {
+               return i !== index
+            } )
+        })
+    }
+
+    function goToDefaultDeck() {
+        setIsCustom(false)
     }
 
     /* function populateSPPanel(text) {
         
     } */
-    
+    console.log('customSentences', customSentences)
+
     const handleOnClick = useCallback(() => navigate('/spelling', {replace: true}), [navigate])
-    const isCustom = currentSentences.isCustom
-    const chosenSentences = isCustom ? currentSentences.sentencesArrays.custom : currentSentences.sentencesArrays.default
+
+    const chosenSentences = isCustom ? customSentences[currentCustomSentence] : {array: defaultSentences, indexNum: 0}
     return (
         <Context.Provider value={{
             lang: languagesArray[chosenLang], 
@@ -621,13 +645,17 @@ function ContextProvider(props) {
             languagesArray, 
             chosenSentences, 
             isCustom, 
-            customSentence,
+            customSentences,
             makingFlashCard,
             callSPPanel,
             showSPOptions,
             setShowSPOptions,
             selection,
-            submitCustomSP
+            submitCustomSP,
+            defaultSentences,
+            switchDecks,
+            deleteDeck,
+            goToDefaultDeck
         }}>
             {props.children}
         </Context.Provider>

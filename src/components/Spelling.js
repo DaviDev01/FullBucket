@@ -4,11 +4,10 @@ import { Context } from "../Context"
 import Dictionary from "./Dictionary"
 
 export default function Spelling() {
-
-    const {chosenSentences, isCustom} = useContext(Context)
+    const {chosenSentences, isCustom, customSentences, switchDecks, deleteDeck, goToDefaultDeck} = useContext(Context)
+    console.log('chosenSentences',chosenSentences)
     const fontSize = 1.5
     let synth = window.speechSynthesis
-    const wordsArray = chosenSentences
     const [wordIndex, setWordIndex] = useState(!isCustom ? JSON.parse(localStorage.getItem('wordIndex')) || 0 : JSON.parse(localStorage.getItem('CustomSentenceIndex')) || 0)
     const inputRef = useRef(null)
     const SpellingMainRef = useRef(null)
@@ -17,17 +16,19 @@ export default function Spelling() {
     const [sampleState, setSampleState] = useState(sample.split('').map((item, i) => {
         return <span key={i}>{item}</span>
     }))
-    const [sentenceStart, setSentenceStart] = useState('Type what you think is in the')
+    const [sentenceStart, setSentenceStart] = useState('Type what is in the')
     const [sentenceEnd, setSentenceEnd] = useState('and press enter to continue')
     const sentenceRef = useRef(null)
     const [showDictionary, setShowDictionary] = useState(false)
-    console.log(wordIndex)
+    const [showMessage, setShowMessage] = useState(false)
+    const [deckToBeDeleted, setDeckToBeDeleted] = useState({})
+
     useEffect( () => {
         inputRef.current.focus()
         document.addEventListener("keydown", focusOnInput)
         return () => document.removeEventListener("keydown", focusOnInput)
     }, [] )
-
+    
     useEffect( () => {
         if (!isCustom) {
             localStorage.setItem('wordIndex', JSON.stringify(wordIndex > 0 ? wordIndex -1 : 0))
@@ -95,14 +96,14 @@ export default function Spelling() {
     function submit(e) {
         e.preventDefault()
         synth.cancel()
-        if (wordsArray.length > wordIndex) {
-            getSentence(wordsArray[wordIndex])
-            speak(wordsArray[wordIndex].sentence)
+        if (chosenSentences.array.length > wordIndex) {
+            getSentence(chosenSentences.array[wordIndex])
+            speak(chosenSentences.array[wordIndex].sentence)
             setUserInputWriting('')
         } else {
             setWordIndex(0) 
-            getSentence(wordsArray[0])
-            speak(wordsArray[0].sentence)
+            getSentence(chosenSentences.array[0])
+            speak(chosenSentences.array[0].sentence)
             setUserInputWriting('')
         }
     }
@@ -124,37 +125,83 @@ export default function Spelling() {
     function scrollIntoView() {
         SpellingMainRef.current.scrollIntoView()
     }
+
+    function setDefaultSentence() {
+        setSample('blank')
+        setSentenceStart('Type what is in the')
+        setSentenceEnd('and press enter to continue.')
+        setUserInputWriting('')
+    }
+
+    function handleDeleteDeckClick(e, i) {
+        setDeckToBeDeleted({e: e, i: i})
+        setShowMessage(true)
+    }
+
+    function populateSPMenu() {
+        const decks = customSentences.map( (subObj, i) => {
+            const length = subObj.array.length
+            return (
+                <div key={i} className="deck" onClick={(e) => {
+                    switchDecks(i)
+                    setDefaultSentence()
+                }}>
+                    <h5 className="deck--title">Custom Deck</h5>
+                    <small className="deck--carsCount"><span>{length}</span> {`flash card${length > 1 ? 's' : ''}`}</small>
+                    
+                    
+                    <p className="deck--description">{subObj.array[0].sentence}</p>
+                    <button className="deck--deleteBtn" onClick={(e) => handleDeleteDeckClick(e, i)}>Delete</button>
+                </div>
+            )
+        })
+        
+        return decks
+    }
     
     return (
         <main className="Spelling" onClick={() => toggleDictionary()} ref={SpellingMainRef}>
-            <div
-                className="spellingDisplay"
-            >  
-              <p ref={sentenceRef} className="fullSentence"><span>{sentenceStart}</span> <span className="wordToSpellEl">{sampleState}</span> <span>{sentenceEnd}</span></p> 
-            </div>
-            
-            <form 
-                className="SpellingForm"
-                onSubmit={submit}
-            >
-                 
-                <input
-                    ref={inputRef}
-                    type="text"
-                    autoComplete="off"
-                    name="userInputWriting"
-                    onChange={handleChange}
-                    value={userInputWriting}
-                    className="spellingInput"
-                /> 
-                <div className="spellingControls">
-                    <i onClick={(e) => focusOnInput(e)} className="fas fa-keyboard spellingKeyboard"></i>
-
-                    <i  onClick={() => speak(wordIndex > 0 ? wordsArray[wordIndex - 1].sentence : `${sentenceStart} blank ${sentenceEnd}`)} className={`TTS-speakerIcon fas fa-volume-up ${sample === 'blank' && "displayNone"}`}></i>
-
-                    <button type="submit" className="spellingBtn"><i className={`fas fa-check editIcon`}></i></button>
+            <div className="deckContainer">
+                <div className="deck" onClick={() => {
+                    goToDefaultDeck()
+                    setDefaultSentence()
+                }}>
+                    <h5 className="deck--title">Default Deck</h5>
+                    <small className="deck--carsCount"><span>{500}</span> {`flash card${500 > 1 ? 's' : ''}`}</small>
                 </div>
-            </form>
+                {customSentences !== [] && populateSPMenu()}
+            </div>
+
+            <div className="sentenceToBePracticed">
+                <div
+                    className="spellingDisplay"
+                >  
+                <p ref={sentenceRef} className="fullSentence"><span>{sentenceStart}</span> <span className="wordToSpellEl">{sampleState}</span> <span>{sentenceEnd}</span></p> 
+                </div>
+                
+                <form 
+                    className="SpellingForm"
+                    onSubmit={submit}
+                >
+                    
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        autoComplete="off"
+                        name="userInputWriting"
+                        onChange={handleChange}
+                        value={userInputWriting}
+                        className="spellingInput"
+                    /> 
+                    <div className="spellingControls">
+                        <i onClick={(e) => focusOnInput(e)} className="fas fa-keyboard spellingKeyboard"></i>
+
+                        <i  onClick={() => speak(wordIndex > 0 ? chosenSentences.array[wordIndex - 1].sentence : `${sentenceStart} blank ${sentenceEnd}`)} className={`TTS-speakerIcon fas fa-volume-up ${sample === 'blank' && "displayNone"}`}></i>
+
+                        <button id="nextBtn" type="submit" className="spellingBtn"><i className={`fas fa-check editIcon`}></i></button>
+                    </div>
+                </form>
+            </div>
             <Dictionary
                 sentenceRef={sentenceRef}
                 currentParent={SpellingMainRef.current}
@@ -163,6 +210,24 @@ export default function Spelling() {
                 showDictionary={showDictionary}
                 setShowDictionary={setShowDictionary}
             />
+            <div className={`CustomSPOptionPanel ${!showMessage && 'displayNone'}`} /* onClick={closePanel} */>
+                <div className="CustomSPOptionPanel--card card--modifier">
+                    <h4 className="card--sentence" >Delete This Deck?</h4>
+                    <p className="card--sentence" >You will not be able to undo this action</p>
+                    <div className="btns-container">
+                        <button className="card--confirmBtn" onClick={() => {
+                            deleteDeck(deckToBeDeleted.e, deckToBeDeleted.i)
+                            setShowMessage(false)
+                            setDeckToBeDeleted({})
+                        }}>Delete Deck</button>
+
+                        <button className="card--cancelBtn" onClick={() => {
+                            setShowMessage(false) 
+                            setDeckToBeDeleted({})
+                        }}>Cancel</button>
+                    </div>
+                </div>
+            </div>
         </main>
     )
 }
