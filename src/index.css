@@ -167,6 +167,11 @@ input[type='range'] {
     bottom: 47px;
 }
 
+.arrowIcon {
+    display: none;
+    transition: all 300ms;
+}
+
 .social--li,
 .editIcon,
 .fa-text-height,
@@ -176,7 +181,8 @@ input[type='range'] {
 .keyboardIcon,
 .spellingKeyboard,
 .searchIcon,
-.exportIcon {
+.exportIcon,
+.arrowIcon {
     cursor: pointer;
     font-size: 1.4rem;
     color: rgb(29, 27, 27);
@@ -201,7 +207,8 @@ input[type='range'] {
 .muteIcon:hover,
 .spellingKeyboard:hover,
 .searchIcon:hover,
-.exportIcon:hover {
+.exportIcon:hover,
+.arrowIcon:hover {
     opacity: 1;
 }
 
@@ -383,10 +390,14 @@ span {
     flex-direction: column;
     color: white;
     z-index: 20;
+    transform: translate(0);
+    opacity: 1;
+    transition: all 200ms;
 }
 
 .hideNav {
     transform: translate(100%);
+    opacity: 0;
 }
 
 .header--ul {
@@ -462,12 +473,80 @@ a {
 
 .Spelling {
     grid-column: 1 / -1;
-    margin: 0 auto;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     min-height: 100vh;
+}
+
+/* .Spelling > * {
+    border: solid red 1px;
+} */
+
+.deckContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    max-width: 100%;
+    max-height: 100vh;
+    align-self: flex-start;
+    gap: 1em;
+    padding: 1em;
+    width: 100%;
+    margin-bottom: 2em;
+    transition: all 300ms;
+}
+
+.deck {
+    background-color: rgb(233, 231, 231);
+    padding: 1em;
+    border-bottom: lightgray solid 2px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    cursor: pointer;
+    border-radius: .3em;
+    width: 100%;
+}
+
+.deck--carsCount {
+    text-align: right;
+}
+
+.deck--description {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.deck--deleteBtn {
+    width: fit-content;
+    grid-column: 2 / span 1;
+    grid-row: 2 / span 1;
+    margin-left: auto;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: .6rem;
+    color: rgba(29, 29, 29, 0.911);
+    background-color: #a8a8a88c;
+    border: none;
+    border-radius: .1em;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    cursor: pointer;
+}
+
+.sentenceToBePracticed {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2em auto;
+    max-width: 100%;
+    min-height: 100vh;
+    transition: all 300ms;
 }
 
 .margin {
@@ -610,12 +689,14 @@ a {
     background: none;
     border: none;
     align-self: flex-end;
-    padding: 1em 1em 0 0;
+    padding: 2.5em 5.1em 0 0;
+    
 }
 
 .closeIcon {
-    color: #fff;
+    color: rgba(255, 255, 255, 0.87);
     font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .spellingControls {
@@ -657,7 +738,7 @@ span {
 }
 
 .CustomSPOptionPanel {
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
@@ -671,6 +752,7 @@ span {
 .CustomSPOptionPanel--card {
     height: 60%;
     width: 50%;
+    max-width: 400px;
     background-color: #fff;
     border-radius: 1em;
     padding: 2em;
@@ -693,6 +775,7 @@ span {
 }
 
 .card--sentence {
+    margin-top: 1em;
 }
 
 .card--confirmBtn,
@@ -708,9 +791,24 @@ span {
     cursor: pointer;
 }
 
-.card--confirmBtn {
-    
+.card--modifier {
+    justify-content: initial;
+    height: fit-content;
 }
+
+.btns-container {
+    margin-top: 2em;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.btns-container > button {
+    margin: 0;
+}
+/* .card--confirmBtn {
+    
+} */
 
 .card--cancelBtn {
     margin-right: 45px;
@@ -722,6 +820,13 @@ span {
         display: none;
     }
 
+    .header--select {
+        text-align: right;
+        color: #000;
+        background: none;
+    }
+
+
     .header--nav {
         position: initial;
         display: flex;
@@ -731,16 +836,12 @@ span {
         flex-direction: initial;
         color: black;
         z-index: initial;
-    }
-
-    .header--select {
-        text-align: right;
-        color: #000;
-        background: none;
+        transition: all 20ms;
     }
 
     .hideNav {
         transform: translate(0);
+        opacity: 1;
     }
 
     .header--ul {
@@ -760,9 +861,13 @@ span {
     }
 }
 
-@media (min-width: 360px) {
+@media (min-width: 467px) {
     .rangeFont {
         left: 72%;
+    }
+
+    .deck {
+        width: 400px;
     }
 }
 
@@ -827,6 +932,61 @@ span {
         bottom: 47px;
     }
     
+}
+
+@media (min-width: 1000px) {
+    /* .Spelling > * {
+        border: red solid 1px;
+    } */
+
+    
+    .arrowIcon {
+        display: unset;
+        font-size: 1.2rem;
+        width: 5%;
+        align-self: flex-start;
+        margin: .5em 0 0 .5em;
+    }
+
+    .Spelling {
+        flex-direction: row;
+        margin: 0;
+        padding: 0;
+    }
+
+    .sentenceToBePracticed {
+        order: 2;
+        height: unset;
+        width: 100%;
+        margin: 0;
+    }
+
+    .deckContainer {
+        max-width: 30%;
+        height: 100%;
+        margin: 0;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .deck {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    
+    .moveArrow {
+        transform: translate(-900%);
+    }
+
+    .moveSentence {
+        transform: translate(-25.8%);
+    }
+
+    .closeDeckContainer {
+        transition: all 300ms;
+        transform: translate( -100%);
+    }
 }
 
 @media (pointer: fine) {
