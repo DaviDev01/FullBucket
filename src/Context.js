@@ -606,6 +606,7 @@ function ContextProvider(props) {
             return [...prev, {array: flashCards, indexNum: customSentences.length + 1}]
         })
         setIsCustom(true)
+        setCurrentCustomSentence(customSentences.length)
         /* setCurrentSentences(prev => ({sentencesArrays: {...prev.sentencesArrays, custom: flashCards}, isCustom: true})) */
         handleOnClick()
     }
@@ -623,15 +624,13 @@ function ContextProvider(props) {
                return i !== index
             } )
         })
+        goToDefaultDeck()
     }
 
     function goToDefaultDeck() {
         setIsCustom(false)
     }
 
-    /* function populateSPPanel(text) {
-        
-    } */
     console.log('customSentences', customSentences)
 
     const handleOnClick = useCallback(() => navigate('/spelling', {replace: true}), [navigate])

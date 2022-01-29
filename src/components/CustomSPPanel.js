@@ -4,14 +4,14 @@ import {Context} from "../Context"
 export default function CustomSPPanel() {
     const [wordsSelected, setWordsSelcted] = useState([])
     const {showSPOptions, setShowSPOptions, selection, submitCustomSP} = useContext(Context)
-    const spSentenceEls = selection.split(/(\s+)/).map( (word, i) => {
+    const spSentenceEls = selection.split(/([a-zA-Z]+)/).map( (word, i) => {
         return <span key={i} className={wordsSelected.includes(word) ? 'greenText' : null} onClick={() => {
             word !== ' ' &&
             handleWordClick(word)
         }}>{word}</span>
-    } )
+    } ) /* .split(/(\s+)/)  */
     const outsideRef = useRef(null)
-
+    console.log(selection.split(/([a-zA-Z]+)/))
     function cancel() {
         setWordsSelcted([])
         setShowSPOptions(false)
@@ -32,7 +32,7 @@ export default function CustomSPPanel() {
             setShowSPOptions(false)
         }
     }
-    console.log(spSentenceEls)
+
     return (
         <div ref={outsideRef} className={`CustomSPOptionPanel ${!showSPOptions && 'displayNone'}`} onClick={closePanel}>
             <div className="CustomSPOptionPanel--card">

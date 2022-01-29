@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, useContext} from "react"
-/* import words from "../words" */
 import { Context } from "../Context"
 import Dictionary from "./Dictionary"
+import ConfirmDeletionModal from "./ConfirmDeletionModal"
 
 export default function Spelling() {
-    const {chosenSentences, isCustom, customSentences, switchDecks, deleteDeck, goToDefaultDeck} = useContext(Context)
+    const {chosenSentences, isCustom, customSentences, switchDecks, goToDefaultDeck} = useContext(Context)
     console.log('chosenSentences',chosenSentences)
     const fontSize = 1.5
     let synth = window.speechSynthesis
@@ -22,6 +22,7 @@ export default function Spelling() {
     const [showDictionary, setShowDictionary] = useState(false)
     const [showMessage, setShowMessage] = useState(false)
     const [deckToBeDeleted, setDeckToBeDeleted] = useState({})
+    const [showDecks, setShowDecks] = useState(true)
 
     useEffect( () => {
         inputRef.current.focus()
@@ -67,7 +68,7 @@ export default function Spelling() {
     function getSentence(wordObj) {
 
         const splitedSentence = wordObj.sentence.match(/\w+(?:'\w+)*|\s+|[^\s\w]+/g)
-
+        console.log(splitedSentence)
         let wordToSpell = splitedSentence.find( (word) => {
             return word.toLowerCase() === wordObj.word.toLowerCase() || word.toLowerCase() === wordObj.word.toLowerCase()  + "'s" || word.toLowerCase() === wordObj.word.toLowerCase()  + "ed" || word.toLowerCase() === wordObj.word.toLowerCase()  + "ing" || word.toLowerCase() === wordObj.word.toLowerCase()  + "'t" || word.toLowerCase() === wordObj.word.toLowerCase()  + "."
         })
@@ -106,6 +107,7 @@ export default function Spelling() {
             speak(chosenSentences.array[0].sentence)
             setUserInputWriting('')
         }
+        setShowDecks(false)
     }
 
     function speak(sentence){
@@ -161,18 +163,7 @@ export default function Spelling() {
     
     return (
         <main className="Spelling" onClick={() => toggleDictionary()} ref={SpellingMainRef}>
-            <div className="deckContainer">
-                <div className="deck" onClick={() => {
-                    goToDefaultDeck()
-                    setDefaultSentence()
-                }}>
-                    <h5 className="deck--title">Default Deck</h5>
-                    <small className="deck--carsCount"><span>{500}</span> {`flash card${500 > 1 ? 's' : ''}`}</small>
-                </div>
-                {customSentences !== [] && populateSPMenu()}
-            </div>
-
-            <div className="sentenceToBePracticed">
+            <div className={`sentenceToBePracticed ${!showDecks && 'moveSentence'}`}>
                 <div
                     className="spellingDisplay"
                 >  
@@ -202,6 +193,19 @@ export default function Spelling() {
                     </div>
                 </form>
             </div>
+            <div className={`deckContainer ${!showDecks && 'closeDeckContainer' }`} >
+                <div className="deck" onClick={() => {
+                    goToDefaultDeck()
+                    setDefaultSentence()
+                }}>
+                    <h5 className="deck--title">Default Deck</h5>
+                    <small className="deck--carsCount"><span>{500}</span> {`flash card${500 > 1 ? 's' : ''}`}</small>
+                </div>
+                {customSentences !== [] && populateSPMenu()}
+            </div>
+            <i class={`fas fa-arrow-${showDecks ? "left" : "right"} arrowIcon ${!showDecks && 'moveArrow' }`} onClick={ () => {
+                setShowDecks(prev => !prev)
+            } }></i>
             <Dictionary
                 sentenceRef={sentenceRef}
                 currentParent={SpellingMainRef.current}
@@ -210,24 +214,12 @@ export default function Spelling() {
                 showDictionary={showDictionary}
                 setShowDictionary={setShowDictionary}
             />
-            <div className={`CustomSPOptionPanel ${!showMessage && 'displayNone'}`} /* onClick={closePanel} */>
-                <div className="CustomSPOptionPanel--card card--modifier">
-                    <h4 className="card--sentence" >Delete This Deck?</h4>
-                    <p className="card--sentence" >You will not be able to undo this action</p>
-                    <div className="btns-container">
-                        <button className="card--confirmBtn" onClick={() => {
-                            deleteDeck(deckToBeDeleted.e, deckToBeDeleted.i)
-                            setShowMessage(false)
-                            setDeckToBeDeleted({})
-                        }}>Delete Deck</button>
-
-                        <button className="card--cancelBtn" onClick={() => {
-                            setShowMessage(false) 
-                            setDeckToBeDeleted({})
-                        }}>Cancel</button>
-                    </div>
-                </div>
-            </div>
+            <ConfirmDeletionModal
+                showMessage={showMessage}
+                setShowMessage={setShowMessage}
+                deckToBeDeleted={deckToBeDeleted}
+                setDeckToBeDeleted={setDeckToBeDeleted}
+            />
         </main>
     )
 }
