@@ -12,8 +12,7 @@ Feito em React.
 (en)
 This site is a study environment aimed at English learning. During the later stages of my English studies, I needed a place to practice my writing.
 A text editor is great for reading, but it's not a very efficient tool for what I wanted. What I was looking for was a tool not only to read the page of a book but also to practice writing the words in there. 
-That's where the idea of creating this website came from, a 
-an environment with a dictionary, text to speech technology, and at the same time a tool to practice writing and reading in English, all in one place.
+That's where the idea of creating this website came from, an environment with a dictionary, text to speech technology, and at the same time a tool to practice writing and reading in English, all in one place.
  
 link to the site: https://davidev01.github.io/fullbucket/
 
