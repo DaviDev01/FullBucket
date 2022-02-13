@@ -1,14 +1,19 @@
 import React, {useContext, useState} from "react"
-import {Link} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import { Context } from "../Context"
 
 export default function Header() {
+    let location = useLocation()
     const {lang, setChosenLang, chosenLang} = useContext(Context)
     const [showNav, setShowNav] = useState(false)
 
     function handleChange(e) {
         const {value} = e.target
         setChosenLang(value)
+    }
+
+    function hideNavigation() {
+        setShowNav(false)
     }
 
     return (
@@ -35,13 +40,13 @@ export default function Header() {
                             </select>
                         </li>
                         <Link to="/">
-                            <li onClick={() => setShowNav(false)} className="header--li">Whiteboard</li>
+                            <li onClick={hideNavigation} className={`header--li ${location.pathname === '/' && 'activePage'}`}>Whiteboard</li>
                         </Link>
                         <Link to="/spelling">
-                            <li onClick={() => setShowNav(false)} className="header--li">Spelling Practice</li>
+                            <li onClick={hideNavigation} className={`header--li ${location.pathname === '/spelling' && 'activePage'}`}>Spelling Practice</li>
                         </Link>
                         <Link to="/about">
-                            <li onClick={() => setShowNav(false)} className="header--li">{lang.about}</li>
+                            <li onClick={hideNavigation} className={`header--li ${location.pathname === '/about' && 'activePage'}`}>{lang.about}</li>
                         </Link>
                     </ul>
                 </nav>

@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useRef, useContext} from "react"
-import Dictionary from "./Dictionary"
+import Dictionary from "../components/Dictionary"
 import { Context } from "../Context"
-import Settings from "./Settings"
-import CustomSPPanel from "./CustomSPPanel"
+import Settings from "../components/Settings"
+import CustomSPPanel from "../components/CustomSPPanel"
 
-function Typing() {
-    const {lang} = useContext(Context)
+function Whiteboard() {
+    const {lang, saveLSToState} = useContext(Context)
     const [sample, setSample] =  useState(lang.whiteboardInstructions)
     const [userInputWriting, setUserInputWriting] = useState("")
     const [showEditor, setShowEditor] = useState(false)
@@ -20,28 +20,15 @@ function Typing() {
     const typingContRef = useRef(null)
     const sentenceRef = useRef(null)
     const mainRef = useRef(null)
-
-
+    
     useEffect( () => {
         setSampleState(prev => checkSpell(prev))
     } , [userInputWriting])
-    
-    function checkSpell(prev) {
-        const checkedText = prev.map( (textLetter, i) => {
-            const userLetter = userInputWriting[i]
-            if (userLetter == null) {
-                return <span key={i}>{textLetter.props.children}</span>
-            } else if (userLetter === textLetter.props.children) {
-                return <span className="greenText" key={i}>{textLetter.props.children}</span>
-            } else if (userLetter !== textLetter.props.children) {
-                return <span className="red" key={i}>{textLetter.props.children}</span>
-            }   
-        })
-
-        return checkedText
-    }
 
     useEffect( () => {
+        localStorage.setItem('whiteboardText', sample)
+        sample.length > 1 && saveLSToState()
+        localStorage.getItem('whiteboardText') && setSample(localStorage.getItem('whiteboardText'))
         setSampleState(settingTextDisplay(sample))
     }, [sample] )
 
@@ -56,12 +43,27 @@ function Typing() {
         return () => document.removeEventListener("keydown", focusOnKeyDown)
     }, [] )
 
-    function settingTextDisplay(sentence) {
-        const Arraysentence = sentence.split('')
+    function settingTextDisplay(text) {
+        const ArrayText = text.split('')
 
-        return Arraysentence.map((item, i) => {
+        return ArrayText.map((item, i) => {
             return <span key={i}>{item}</span>
         })
+    }
+
+    function checkSpell(prev) {
+        const checkedText = prev.map( (textLetter, i) => {
+            const userLetter = userInputWriting[i]
+            if (userLetter == null) {
+                return <span key={i}>{textLetter.props.children}</span>
+            } else if (userLetter === textLetter.props.children) {
+                return <span className="greenText" key={i}>{textLetter.props.children}</span>
+            } else if (userLetter !== textLetter.props.children) {
+                return <span className="red" key={i}>{textLetter.props.children}</span>
+            }   
+        })
+
+        return checkedText
     }
 
     function handleChange(e) {
@@ -162,4 +164,4 @@ function Typing() {
     )
 }
 
-export default Typing
+export default Whiteboard

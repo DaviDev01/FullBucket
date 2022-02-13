@@ -11,7 +11,6 @@ export default function CustomSPPanel() {
         }}>{word}</span>
     } ) /* .split(/(\s+)/)  */
     const outsideRef = useRef(null)
-    console.log(selection.split(/([a-zA-Z]+)/))
     function cancel() {
         setWordsSelcted([])
         setShowSPOptions(false)

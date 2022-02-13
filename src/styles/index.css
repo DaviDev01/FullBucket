@@ -62,7 +62,8 @@ body {
     display: flex;
     flex-direction: column;
     height: 80vh;
-    width: 80%;
+    width: 95%;
+    max-width: 1500px;
     border-radius: 5px;
     box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.521), 0px 6px 10px 2px rgb(0 0 0 / 10%);
 }
@@ -170,6 +171,7 @@ input[type='range'] {
 .arrowIcon {
     display: none;
     transition: all 300ms;
+    color: black;
 }
 
 .social--li,
@@ -368,7 +370,8 @@ span {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 80%;
+    width: 90%;
+    max-width: 1500px;
 }
 
 .header--title {
@@ -402,15 +405,12 @@ span {
 
 .header--ul {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     list-style: none;
-    padding: 0;
     gap: 2em;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     height: 100%;
-    padding: 3em 1em;
+    padding: 1em 1em;
     text-align: left;
 }
 
@@ -418,7 +418,27 @@ span {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 1rem;
+    position: relative;
+    padding: 2em 0;
 }
+
+.header--ul > li:first-child {
+    padding: 0px;
+}
+
+.activePage::before {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    bottom: 27px;
+    background-color: #fff;
+}
+
+.activePage:hover::before {
+    background-color: rgb(119, 119, 119);
+}
+
 
 .header--li:hover {
     color: rgb(119, 119, 119);
@@ -628,11 +648,13 @@ a {
     grid-column: 1 / -1;
     min-height: 100vh;
     margin: auto;
+    width: 100%;
 }
 
 .About--article {
-    width: 80%;
-    margin: 63px auto;
+    width: 90%;
+    max-width: 700px;
+    margin: 63px auto 100px auto;
 }
 
 .About--article_title {
@@ -641,7 +663,7 @@ a {
 }
 
 .About--article_body {
-    max-width: 900px;
+    width: 100%;
     letter-spacing: 1px;
     line-height: 1.7;
 }
@@ -653,7 +675,7 @@ a {
 }
 
 .About--article_img {
-    max-width: 720px;
+    width: 100%;
     display: block;
     margin: 1em auto;
 }
@@ -669,11 +691,15 @@ a {
     text-align: left;
     color: #fff;
     background: none;
+    padding: 0;
+    margin-bottom: 2em;
 }
 
 .header--option {
     font-size: .8rem;
     border: none;
+    color: rgb(29, 27, 27);
+    font-weight: 700;
 }
 
 .openBtn {
@@ -689,8 +715,7 @@ a {
     background: none;
     border: none;
     align-self: flex-end;
-    padding: 2.5em 5.1em 0 0;
-    
+    padding: 2.6em 2.6em 0 0;
 }
 
 .closeIcon {
@@ -806,9 +831,6 @@ span {
 .btns-container > button {
     margin: 0;
 }
-/* .card--confirmBtn {
-    
-} */
 
 .card--cancelBtn {
     margin-right: 45px;
@@ -824,6 +846,8 @@ span {
         text-align: right;
         color: #000;
         background: none;
+        padding: unset;
+        margin-bottom: unset;
     }
 
 
@@ -852,6 +876,16 @@ span {
         padding: 0;
         gap: 2em;
         height: initial;
+        padding: 0;
+    }
+
+    .header--li {
+        position: relative;
+        padding: 0;
+    }
+    .activePage::before {
+        bottom: -4px;
+        background-color: rgb(119, 119, 119);
     }
 }
 
@@ -881,6 +915,10 @@ span {
     .rangeFont {
         left: 75%;
     }
+
+    .typing--sampleArea {
+        width: 90%;
+    }
 }
 
 @media (min-width: 500px) {
@@ -892,6 +930,10 @@ span {
 @media (min-width: 600px) {
     .rangeFont {
         left: 78.6%;
+    }
+
+    .smallImg {
+        width: 75%;
     }
 }
 
@@ -986,6 +1028,13 @@ span {
     .closeDeckContainer {
         transition: all 300ms;
         transform: translate( -100%);
+    }
+    .header-content {
+        width: 80%;
+    }
+
+    .typing--sampleArea {
+        width: 80%;
     }
 }
 
