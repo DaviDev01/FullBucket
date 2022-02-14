@@ -97,12 +97,13 @@ export default function Spelling() {
         synth.cancel()
         if (chosenSentences.array.length > wordIndex) {
             getSentence(chosenSentences.array[wordIndex])
-            speak(chosenSentences.array[wordIndex].sentence)
+            speak(chosenSentences.array[wordIndex].word)
+            console.log(chosenSentences.array[0])
             setUserInputWriting('')
         } else {
             setWordIndex(0) 
             getSentence(chosenSentences.array[0])
-            speak(chosenSentences.array[0].sentence)
+            speak(chosenSentences.array[0].word)
             setUserInputWriting('')
         }
         setShowDecks(false)
@@ -203,7 +204,7 @@ export default function Spelling() {
             </div>
             <i className={`fas fa-arrow-${showDecks ? "left" : "right"} arrowIcon ${!showDecks && 'moveArrow' }`} onClick={ () => {
                 setShowDecks(prev => !prev)
-            } }></i>
+            }}></i>
             <Dictionary
                 sentenceRef={sentenceRef}
                 currentParent={SpellingMainRef.current}
