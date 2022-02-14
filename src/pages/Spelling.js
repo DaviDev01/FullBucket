@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef, useContext} from "react"
 import { Context } from "../Context"
-import Dictionary from "./Dictionary"
-import ConfirmDeletionModal from "./ConfirmDeletionModal"
+import Dictionary from "../components/Dictionary"
+import ConfirmDeletionModal from "../components/ConfirmDeletionModal"
 
 export default function Spelling() {
     const {chosenSentences, isCustom, customSentences, switchDecks, goToDefaultDeck} = useContext(Context)
-    console.log('chosenSentences',chosenSentences)
     const fontSize = 1.5
     let synth = window.speechSynthesis
     const [wordIndex, setWordIndex] = useState(!isCustom ? JSON.parse(localStorage.getItem('wordIndex')) || 0 : JSON.parse(localStorage.getItem('CustomSentenceIndex')) || 0)
@@ -68,7 +67,6 @@ export default function Spelling() {
     function getSentence(wordObj) {
 
         const splitedSentence = wordObj.sentence.match(/\w+(?:'\w+)*|\s+|[^\s\w]+/g)
-        console.log(splitedSentence)
         let wordToSpell = splitedSentence.find( (word) => {
             return word.toLowerCase() === wordObj.word.toLowerCase() || word.toLowerCase() === wordObj.word.toLowerCase()  + "'s" || word.toLowerCase() === wordObj.word.toLowerCase()  + "ed" || word.toLowerCase() === wordObj.word.toLowerCase()  + "ing" || word.toLowerCase() === wordObj.word.toLowerCase()  + "'t" || word.toLowerCase() === wordObj.word.toLowerCase()  + "."
         })
@@ -99,12 +97,13 @@ export default function Spelling() {
         synth.cancel()
         if (chosenSentences.array.length > wordIndex) {
             getSentence(chosenSentences.array[wordIndex])
-            speak(chosenSentences.array[wordIndex].sentence)
+            speak(chosenSentences.array[wordIndex].word)
+            console.log(chosenSentences.array[0])
             setUserInputWriting('')
         } else {
             setWordIndex(0) 
             getSentence(chosenSentences.array[0])
-            speak(chosenSentences.array[0].sentence)
+            speak(chosenSentences.array[0].word)
             setUserInputWriting('')
         }
         setShowDecks(false)
@@ -203,9 +202,9 @@ export default function Spelling() {
                 </div>
                 {customSentences !== [] && populateSPMenu()}
             </div>
-            <i class={`fas fa-arrow-${showDecks ? "left" : "right"} arrowIcon ${!showDecks && 'moveArrow' }`} onClick={ () => {
+            <i className={`fas fa-arrow-${showDecks ? "left" : "right"} arrowIcon ${!showDecks && 'moveArrow' }`} onClick={ () => {
                 setShowDecks(prev => !prev)
-            } }></i>
+            }}></i>
             <Dictionary
                 sentenceRef={sentenceRef}
                 currentParent={SpellingMainRef.current}

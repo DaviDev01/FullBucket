@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
-import useLongPress from "./useLongPress"
+import useLongPress from "../hooks/useLongPress"
 
 export default function Dictionary(props) {
     const [dictionaryData, setDictionaryData] = useState(null)
@@ -35,9 +35,10 @@ export default function Dictionary(props) {
         props.sentenceRef.current.addEventListener('touchend', longPressEvent.onTouchEnd)
         return () => {
             document.removeEventListener("keydown", isMyKey)
-            props.sentenceRef.current.removeEventListener('touchstart', longPressEvent.onTouchStart)
-            props.sentenceRef.current.removeEventListener('touchend', longPressEvent.onTouchEnd)
-            
+            if (props.sentenceRef.current) {
+                props.sentenceRef.current.removeEventListener('touchstart', longPressEvent.onTouchStart)
+                props.sentenceRef.current.removeEventListener('touchend', longPressEvent.onTouchEnd)
+            }
         }
     })
 

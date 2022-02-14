@@ -5,9 +5,9 @@ import {useNavigate} from 'react-router-dom';
 const Context = React.createContext()
 
 function ContextProvider(props) {
-    const [languagesArray] = useState([{
+    const [languagesArray, setLanguagesArray] = useState([{
         about: "About",
-        whiteboardInstructions: "Try to type what is written here. Select some text and click the speaker icon to hear it or press ctrl + alt to see the word's definition (if you are on mobile, just press the word for about two seconds). More info on the about page.",
+        whiteboardInstructions: localStorage.getItem('whiteboardText') || "Try to type what is written here. Select some text and click the speaker icon to hear it or press ctrl + alt to see the word's definition (if you are on mobile, just press the word for about two seconds). More info on the about page.",
         title1: "What Is FullBucket?",
         part1: "When you are learning a new language, there are a lot of tools that can help you, like a dictionary to look up words, a text to speech technology to help you improve your ability to understand and pronounce certain words, and a place where you can practice both your reading and writing skills.",
         part2: "The problem is that those tools are scattered all around the internet. That's why I created FullBucket, to give you all the tools you need and let you focus on learning.",
@@ -33,7 +33,7 @@ function ContextProvider(props) {
         part17: "You can still use the see word definition command on the Spelling Practice page."
     }, {
         about: "Sobre",
-        whiteboardInstructions: "Tente digitar o que está escrito aqui. Selecione qualquer palavra e clique no ícone do alto-falante para ouvi-la ou pressione ctrl + alt para ver sua definição (em dispositivos móveis, basta pressionar a palavra por aproximadamente dois segundos). Mais detalhes na página 'sobre'.",
+        whiteboardInstructions: localStorage.getItem('whiteboardText') || "Tente digitar o que está escrito aqui. Selecione qualquer palavra e clique no ícone do alto-falante para ouvi-la ou pressione ctrl + alt para ver sua definição (em dispositivos móveis, basta pressionar a palavra por aproximadamente dois segundos). Mais detalhes na página 'sobre'.",
         title1: "O que é FullBucket?",
         part1: "Quando você está aprendendo um novo idioma, existem várias ferramentas que podem ajudá-lo, como um dicionário para procurar palavras, uma tecnologia de conversão de texto para fala para ajudá-lo a melhorar sua capacidade de entender e pronunciar certas palavras e um lugar onde você possa praticar suas habilidades de leitura e escrita.",
         part2: "O problema é que essas ferramentas estão espalhadas por varios cantos da internet. É por isso que criei o FullBucket, para dar a você todas as ferramentas que você precisa e permitir que você se concentre no aprendizado.",
@@ -590,7 +590,6 @@ function ContextProvider(props) {
     }
 
     function callSPPanel(text) {
-        console.log("text", typeof text)
         if (text !== ' ' || text !== '' ) {
             setShowSPOptions(prev => !prev)
             setSelection(text)
@@ -631,7 +630,14 @@ function ContextProvider(props) {
         setIsCustom(false)
     }
 
-    console.log('customSentences', customSentences)
+    function saveLSToState() {
+        setLanguagesArray(prev => prev.map((obj) => {
+            return {
+                ...obj,
+                whiteboardInstructions: localStorage.getItem('whiteboardText') || obj.whiteboardInstructions
+            }
+        }))
+    }
 
     const handleOnClick = useCallback(() => navigate('/spelling', {replace: true}), [navigate])
 
@@ -654,7 +660,8 @@ function ContextProvider(props) {
             defaultSentences,
             switchDecks,
             deleteDeck,
-            goToDefaultDeck
+            goToDefaultDeck,
+            saveLSToState
         }}>
             {props.children}
         </Context.Provider>
