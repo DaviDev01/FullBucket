@@ -101,7 +101,7 @@ export default function Dictionary(props) {
     } ) : null 
 
     const definitionsEls = definitionsObjs !== null ? definitionsObjs.map( (obj, i) => {
-        return <li key={i} className="definition">{obj.definition} <br/> {obj.synonyms.map( (item, i) => i <= 2 && <div key={i} className='synonsym'>{item}</div> )}</li>
+        return <li key={i} className="definition">{obj.definition} <br/> {obj.synonyms && obj.synonyms.map( (item, i) => i <= 2 && <div key={i} className='synonsym'>{item}</div> )}</li>
     } ) : "no definition"
     
     return (
